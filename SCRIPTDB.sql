@@ -8,11 +8,11 @@ CREATE TABLE User(
     lastname VARCHAR(50) NOT NULL,
     gender CHAR(1) NOT NULL,
     birthday DATE NOT NULL,
-    dni CHAR(8) NOT NULL,
+    dni CHAR(8) NOT NULL UNIQUE,
     telephone CHAR(9) NOT NULL,
-    email VARCHAR(200) NOT NULL,
+    email VARCHAR(200) NOT NULL UNIQUE,
     password VARCHAR(60) NOT NULL,
-    role CHAR(1) NOT NULL DEFAULT('u')
+    role CHAR(1) NOT NULL DEFAULT('U')
 );
 
 CREATE TABLE Pet(
@@ -53,3 +53,7 @@ CREATE TABLE Diagnostic(
 );
 
 
+INSERT INTO User(idUser, firstname, lastname, gender, birthday,
+dni, telephone, email, password) VALUES (UUID(),"test",
+"test", "m", "1998-10-20", "75121212", "asdds@gmail.com",
+"qweqweqwe");
