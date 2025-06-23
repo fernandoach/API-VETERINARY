@@ -51,9 +51,3 @@ CREATE TABLE Diagnostic(
     idAppointment CHAR(36) NOT NULL,
 	FOREIGN KEY (idAppointment) REFERENCES Appointment(idAppointment)
 );
-
-
-INSERT INTO User(idUser, firstname, lastname, gender, birthday,
-dni, telephone, email, password) VALUES (UUID(),"test",
-"test", "m", "1998-10-20", "75121212", "asdds@gmail.com",
-"qweqweqwe");

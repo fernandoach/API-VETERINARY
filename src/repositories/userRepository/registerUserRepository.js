@@ -20,7 +20,7 @@ async function registerUserRepository (firstname, lastname, gender, birthday, dn
     if (error.code === 'ER_DUP_ENTRY') {
       throw new Error('El correo o DNI proporcionado ya está registrado.')
     }
-    throw error
+    return error
   }
 }
 
