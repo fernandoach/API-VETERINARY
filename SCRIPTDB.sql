@@ -12,7 +12,7 @@ CREATE TABLE User(
     telephone CHAR(9) NOT NULL,
     email VARCHAR(200) NOT NULL,
     password VARCHAR(60) NOT NULL,
-    role CHAR(1) NOT NULL DEFAULT('u')
+    role CHAR(1) NOT NULL DEFAULT('U')
 );
 
 CREATE TABLE Pet(
@@ -52,7 +52,6 @@ CREATE TABLE Diagnostic(
 	FOREIGN KEY (idAppointment) REFERENCES Appointment(idAppointment)
 );
 
-#SELECT * from User;
 
 #INSERT INTO Pet (
 #  idPet, name, species, race, gender, weight, birthday, idUser
@@ -62,3 +61,12 @@ CREATE TABLE Diagnostic(
 #(uuid(), 'Rocky', 'Perro', 'Bulldog', 'M', 20.00, '2019-01-20', 'a3a9297e-508f-11f0-b92f-0a002700000f'),
 #(uuid(), 'Luna', 'Gato', 'Persa', 'F', 3.80, '2022-05-05', 'a3a9297e-508f-11f0-b92f-0a002700000f'),
 #(uuid(), 'Max', 'Perro', 'Pastor Alemán', 'M', 30.00, '2021-11-25', 'a3a9297e-508f-11f0-b92f-0a002700000f');
+
+#INSERT INTO User (
+#  idUser, firstname, lastname, gender, birthday, dni, telephone, email, password, role
+#) VALUES
+#(uuid(), 'Carlos', 'Salazar', 'M', '1990-04-15', '11345678', '912345678', 'carlos.vet@gmail.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V'),
+#(uuid(), 'Laura', 'Mendoza', 'F', '1987-09-23', '23456789', '922223333', 'laura.mendoza@vet.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V'),
+#(uuid(), 'Diego', 'Ramírez', 'M', '1992-01-10', '34567890', '933334444', 'diego.ramirez@vet.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V'),
+#(uuid(), 'Ana', 'Lopez', 'F', '1995-07-05', '45678901', '944445555', 'ana.lopez@vet.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V'),
+#(uuid(), 'Ricardo', 'Torres', 'M', '1988-11-30', '56789012', '955556666', 'ricardo.torres@vet.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V');
