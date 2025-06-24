@@ -18,7 +18,6 @@ loginRouter.post('/', async (req, res) => {
 
     const validation = await validatePassword(userPassword, password)
     if (validation) {
-      // TODO: JWT
       const jwt = signJWT(idUser)
       return res.json({ accesToken: jwt })
     } else {

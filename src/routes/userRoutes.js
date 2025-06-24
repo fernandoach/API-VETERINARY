@@ -19,7 +19,6 @@ userRouter.post('/register', async (req, res) => {
     if (error instanceof Error) {
       return res.status(400).json({ message: error.message })
     }
-
     return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado' })
   }
 })

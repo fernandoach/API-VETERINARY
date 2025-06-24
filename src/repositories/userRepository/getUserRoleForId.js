@@ -1,21 +1,21 @@
 import { createConnection } from '../../config/databaseConnection.js'
 
-async function getIdUserForEmail (email) {
+async function getUserRoleForId (idUser) {
   try {
     const sql = `
-      SELECT idUser FROM User
-      WHERE email = ?
+      SELECT role FROM User
+      WHERE idUser = ?;
     `
 
     const connection = await createConnection()
-    const [result] = await connection.query(sql, [email])
+    const [result] = await connection.query(sql, [idUser])
     if (result.length === 0) {
       return -1
     }
-    return result[0].idUser
+    return result[0].role
   } catch (error) {
     return error
   }
 }
 
-export { getIdUserForEmail }
+export { getUserRoleForId }

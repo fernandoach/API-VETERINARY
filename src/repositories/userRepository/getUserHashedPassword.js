@@ -9,7 +9,6 @@ async function getUserHashedPassword (idUser) {
 
     const connection = await createConnection()
     const [result] = await connection.query(sql, [idUser])
-    console.log(result)
     if (result.length === 0) {
       return -1
     }
