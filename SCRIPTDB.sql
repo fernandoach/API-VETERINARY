@@ -8,9 +8,9 @@ CREATE TABLE User(
     lastname VARCHAR(50) NOT NULL,
     gender CHAR(1) NOT NULL,
     birthday DATE NOT NULL,
-    dni CHAR(8) NOT NULL,
+    dni CHAR(8) NOT NULL UNIQUE,
     telephone CHAR(9) NOT NULL,
-    email VARCHAR(200) NOT NULL,
+    email VARCHAR(200) NOT NULL UNIQUE,
     password VARCHAR(60) NOT NULL,
     role CHAR(1) NOT NULL DEFAULT('U')
 );
@@ -52,6 +52,12 @@ CREATE TABLE Diagnostic(
 	FOREIGN KEY (idAppointment) REFERENCES Appointment(idAppointment)
 );
 
+#INSERT INTO User (idUser, firstname, lastname, gender, birthday, dni, telephone, email, password, role) VALUES
+#(uuid(), 'Lucía', 'Fernández', 'F', '1998-04-12', '12345678', '987654321', 'lucia.fernandez@example.com', '$2b$12$71jferVD6Tj/Uwb0YWRlMuOQ.PnJu5dwhQLCJyTt6kPlfGJzJgHgi', 'U'),
+#(uuid(), 'Carlos', 'Ramírez', 'M', '1995-09-22', '87654321', '912345678', 'carlos.ramirez@example.com', '$2b$12$71jferVD6Tj/Uwb0YWRlMuOQ.PnJu5dwhQLCJyTt6kPlfGJzJgHgi', 'U'),
+#(uuid(), 'María', 'Gonzales', 'F', '2000-01-10', '11223344', '923456789', 'maria.gonzales@example.com', '$2b$12$71jferVD6Tj/Uwb0YWRlMuOQ.PnJu5dwhQLCJyTt6kPlfGJzJgHgi', 'U'),
+#(uuid(), 'Jorge', 'Pérez', 'M', '1993-07-08', '44556677', '934567890', 'jorge.perez@example.com', '$2b$12$71jferVD6Tj/Uwb0YWRlMuOQ.PnJu5dwhQLCJyTt6kPlfGJzJgHgi', 'U'),
+#(uuid(), 'Ana', 'Torres', 'F', '1999-12-01', '55667788', '945678901', 'ana.torres@example.com', '$2b$12$71jferVD6Tj/Uwb0YWRlMuOQ.PnJu5dwhQLCJyTt6kPlfGJzJgHgi', 'U');
 
 #INSERT INTO Pet (
 #  idPet, name, species, race, gender, weight, birthday, idUser
