@@ -1,12 +1,9 @@
-import express from 'express'
 import { getIdUserForEmail } from '../repositories/userRepository/getIdUserForEmail.js'
 import { getUserHashedPassword } from '../repositories/userRepository/getUserHashedPassword.js'
-import { validatePassword } from '../utils/validatePassword.js'
 import { signJWT } from '../utils/signJWT.js'
+import { validatePassword } from '../utils/validatePassword.js'
 
-const loginRouter = express.Router()
-
-loginRouter.post('/', async (req, res) => {
+async function loginController (req, res) {
   try {
     const { email, password } = req.body
 
@@ -29,6 +26,6 @@ loginRouter.post('/', async (req, res) => {
     }
     return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado' })
   }
-})
+}
 
-export { loginRouter }
+export { loginController }

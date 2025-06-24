@@ -1,6 +1,6 @@
 import { createConnection } from '../../config/databaseConnection.js'
 
-async function registerUserRepository (firstname, lastname, gender, birthday, dni, telephone, email, password) {
+async function registerUser (firstname, lastname, gender, birthday, dni, telephone, email, password) {
   try {
     const sql = `
       INSERT INTO User(
@@ -14,14 +14,12 @@ async function registerUserRepository (firstname, lastname, gender, birthday, dn
     const [result] = await connection.query(sql, [
       firstname, lastname, gender, birthday, dni, telephone, email, password
     ])
+    console.log(result)
 
     return result
   } catch (error) {
-    if (error.code === 'ER_DUP_ENTRY') {
-      throw new Error('El correo o DNI proporcionado ya está registrado.')
-    }
     return error
   }
 }
 
-export { registerUserRepository }
+export { registerUser }

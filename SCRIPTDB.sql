@@ -8,11 +8,11 @@ CREATE TABLE User(
     lastname VARCHAR(50) NOT NULL,
     gender CHAR(1) NOT NULL,
     birthday DATE NOT NULL,
-    dni CHAR(8) NOT NULL UNIQUE,
+    dni CHAR(8) NOT NULL,
     telephone CHAR(9) NOT NULL,
-    email VARCHAR(200) NOT NULL UNIQUE,
+    email VARCHAR(200) NOT NULL,
     password VARCHAR(60) NOT NULL,
-    role CHAR(1) NOT NULL DEFAULT('U')
+    role CHAR(1) NOT NULL DEFAULT('u')
 );
 
 CREATE TABLE Pet(
@@ -34,7 +34,7 @@ CREATE TABLE Appointment(
     startTime TIME NOT NULL,
 	endTime TIME NOT NULL,
     reason VARCHAR(200) NOT NULL,
-    state CHAR(1) DEFAULT('p'),
+    state CHAR(1) DEFAULT('P'),
     idVeterinary CHAR(36) NOT NULL,
     idPet CHAR(36) NOT NULL,
     FOREIGN KEY (idVeterinary) REFERENCES User(idUser),
@@ -51,3 +51,14 @@ CREATE TABLE Diagnostic(
     idAppointment CHAR(36) NOT NULL,
 	FOREIGN KEY (idAppointment) REFERENCES Appointment(idAppointment)
 );
+
+#SELECT * from User;
+
+#INSERT INTO Pet (
+#  idPet, name, species, race, gender, weight, birthday, idUser
+#) VALUES
+#(uuid(), 'Firulais', 'Perro', 'Labrador', 'M', 25.50, '2020-03-15', 'a3a9297e-508f-11f0-b92f-0a002700000f'),
+#(uuid(), 'Michi', 'Gato', 'Siames', 'F', 4.20, '2021-08-10', 'a3a9297e-508f-11f0-b92f-0a002700000f'),
+#(uuid(), 'Rocky', 'Perro', 'Bulldog', 'M', 20.00, '2019-01-20', 'a3a9297e-508f-11f0-b92f-0a002700000f'),
+#(uuid(), 'Luna', 'Gato', 'Persa', 'F', 3.80, '2022-05-05', 'a3a9297e-508f-11f0-b92f-0a002700000f'),
+#(uuid(), 'Max', 'Perro', 'Pastor Alemán', 'M', 30.00, '2021-11-25', 'a3a9297e-508f-11f0-b92f-0a002700000f');
