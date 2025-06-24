@@ -3,7 +3,7 @@ import { createConnection } from '../../config/databaseConnection.js'
 async function getUserInfoForId (idUser) {
   try {
     const sql = `
-      SELECT firstname FROM User
+      SELECT idUser, firstname, lastname, email, gender, birthday, telephone, role  FROM User
       WHERE idUser = ?;
     `
 
@@ -14,12 +14,16 @@ async function getUserInfoForId (idUser) {
     }
 
     const userInfo = {
-      idUser,
-      firstname: result[0].firstname
-      // TODO:
+      idUser: result[0].idUser,
+      firstname: result[0].firstname,
+      lastname: result[0].lastname,
+      gender: result[0].gender,
+      birthday: result[0].birthday,
+      telephone: result[0].telephone,
+      role: result[0].role
     }
 
-    return result[0].role
+    return userInfo
   } catch (error) {
     return error
   }
