@@ -6,7 +6,7 @@ async function getAuthIdUser (req) {
 
     const authToken = authContent.split(' ')[1]
     if (!authToken) {
-      throw new Error('El token de inicio de sesión es requerido.')
+      throw new Error('Token no valido.')
     }
 
     const verify = verifyJWT(authToken)
@@ -18,7 +18,7 @@ async function getAuthIdUser (req) {
     return idUser
   } catch (error) {
     if (error instanceof Error) {
-      return error
+      throw new Error('Token no valido.')
     }
     throw new Error(error)
   }

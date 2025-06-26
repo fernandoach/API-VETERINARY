@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="RPAzpnmm1RsqbhSX1ocx" name="Page-1">
-        <mxGraphModel dx="1779" dy="534" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1407" dy="297" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -81,7 +81,7 @@
                 <mxCell id="11" value="/[userCRUD]" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="350" y="290" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="74" style="edgeStyle=none;html=1;" edge="1" parent="1" source="12">
+                <mxCell id="74" style="edgeStyle=none;html=1;" parent="1" source="12" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="-70" y="330" as="targetPoint"/>
                     </mxGeometry>
@@ -89,12 +89,12 @@
                 <mxCell id="12" value="/login" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="-50" y="300" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="76" style="edgeStyle=none;html=1;" edge="1" parent="1" source="13">
+                <mxCell id="76" style="edgeStyle=none;html=1;" parent="1" source="13" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="-70" y="530" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="13" value="/changePassword" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="13" value="/changePassword" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="-50" y="500" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="55" style="edgeStyle=none;html=1;" parent="1" source="14" edge="1">
@@ -244,18 +244,18 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="75" style="edgeStyle=none;html=1;" edge="1" parent="1" source="70">
+                <mxCell id="75" style="edgeStyle=none;html=1;" parent="1" source="70" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="-70" y="430" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="70" value="/getAuthIdUser" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                <mxCell id="70" value="/getAuthIdUser" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="-50" y="400" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="72" value="/auth" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="72" value="/auth" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="-50" y="210" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="73" value="" style="endArrow=none;html=1;" edge="1" parent="1">
+                <mxCell id="73" value="" style="endArrow=none;html=1;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="-70" y="620" as="sourcePoint"/>
                         <mxPoint x="-50" y="230" as="targetPoint"/>
@@ -264,12 +264,12 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="78" style="edgeStyle=none;html=1;" edge="1" parent="1" source="77">
+                <mxCell id="78" style="edgeStyle=none;html=1;" parent="1" source="77" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="-70" y="610" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="77" value="/getAuthUserInfo" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                <mxCell id="77" value="/getAuthUserInfo" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="-50" y="580" width="120" height="60" as="geometry"/>
                 </mxCell>
             </root>

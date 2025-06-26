@@ -7,12 +7,12 @@ async function authUserMiddleware (req, res, next) {
 
     const authToken = authContent.split(' ')[1]
     if (!authToken) {
-      return res.status(400).json({ message: 'El token de inicio de sesión es requerido.' })
+      return res.status(400).json({ message: 'Sin autorización.' })
     }
 
     const verify = verifyJWT(authToken)
     if (!verify) {
-      return res.status(400).json({ message: 'Token de inicio de sesión invalido.' })
+      return res.status(400).json({ message: 'Sin autorización.' })
     }
 
     const idUser = verify.data
@@ -26,7 +26,7 @@ async function authUserMiddleware (req, res, next) {
       return res.status(400).json({ message: error.message })
     }
 
-    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado' })
+    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Sin autorización.' })
   }
 }
 
@@ -36,12 +36,12 @@ async function authVeterinaryMiddleware (req, res, next) {
 
     const authToken = authContent.split(' ')[1]
     if (!authToken) {
-      return res.status(400).json({ message: 'El token de inicio de sesión es requerido.' })
+      return res.status(400).json({ message: 'Sin autorización.' })
     }
 
     const verify = verifyJWT(authToken)
     if (!verify) {
-      return res.status(400).json({ message: 'Token de inicio de sesión invalido.' })
+      return res.status(400).json({ message: 'Sin autorización.' })
     }
 
     const idUser = verify.data
@@ -55,7 +55,7 @@ async function authVeterinaryMiddleware (req, res, next) {
       return res.status(400).json({ message: error.message })
     }
 
-    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado' })
+    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Sin autorización.' })
   }
 }
 
@@ -65,12 +65,12 @@ async function authAdminMiddleware (req, res, next) {
 
     const authToken = authContent.split(' ')[1]
     if (!authToken) {
-      return res.status(400).json({ message: 'El token de inicio de sesión es requerido.' })
+      return res.status(400).json({ message: 'Sin autorización.' })
     }
 
     const verify = verifyJWT(authToken)
     if (!verify) {
-      return res.status(400).json({ message: 'Token de inicio de sesión invalido.' })
+      return res.status(400).json({ message: 'Sin autorización.' })
     }
 
     const idUser = verify.data
@@ -84,7 +84,7 @@ async function authAdminMiddleware (req, res, next) {
       return res.status(400).json({ message: error.message })
     }
 
-    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado' })
+    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Sin autorización.' })
   }
 }
 
