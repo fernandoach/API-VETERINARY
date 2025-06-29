@@ -1,10 +1,12 @@
-import { addMinutes } from 'date-fns'
+import { addMinutes, compareAsc, isSameDay } from 'date-fns'
 import { registerUser } from '../repositories/userRepository/registerUser.js'
 import { hashPassword } from '../utils/hashPassword.js'
 import { appointmentSchema } from '../validations/appointmentSchema.js'
 import { userSchema } from '../validations/userSchema.js'
 import { verifySchedule } from '../repositories/appointmentRepository/verifySchedule.js'
 import { registerAppointment } from '../repositories/appointmentRepository/registerAppointment.js'
+import { getAppointmentDateTimeForId } from '../repositories/appointmentRepository/getAppointmentDateTimeForId.js'
+import { cancelAppointmentForId } from '../repositories/appointmentRepository/cancelAppointmentForId.js'
 
 async function userRegisterController (req, res) {
   try {
@@ -49,4 +51,36 @@ async function userCreateAppointmentController (req, res) {
   }
 }
 
-export { userRegisterController, userCreateAppointmentController }
+async function userCancelAppointmentController (req, res) {
+  try {
+    const { idAppointment } = req.body
+
+    const appointmentDateTime = await getAppointmentDateTimeForId(idAppointment) // { date, startTime, endTime }
+    const appointmentDate = (appointmentDateTime.date)
+    if (isSameDay(new Date(appointmentDate), Date.now())) {
+      return res.status(400).send({ message: 'No puede cancelar el mismo día de la cita.' })
+    }
+    const compareDate = compareAsc(new Date(appointmentDate), new Date(Date.now()))
+
+    if (compareDate === -1) {
+      return res.status(400).send({ message: 'No puede cancelar una cita de fecha pasada.' })
+    }
+
+    const result = await cancelAppointmentForId(idAppointment)
+
+    switch (result) {
+      case 0:
+        return res.status(400).send({ message: 'Cita ya fue cancelada previamente.' })
+      case 1:
+        return res.status(200).send({ message: 'Cita cancelada con exito.' })
+    }
+    throw new Error('No se pudo cancelar la cita.')
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(400).json({ message: error.message })
+    }
+    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado' })
+  }
+}
+
+export { userRegisterController, userCreateAppointmentController, userCancelAppointmentController }
