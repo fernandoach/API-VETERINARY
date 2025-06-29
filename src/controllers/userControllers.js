@@ -7,6 +7,8 @@ import { verifySchedule } from '../repositories/appointmentRepository/verifySche
 import { registerAppointment } from '../repositories/appointmentRepository/registerAppointment.js'
 import { getAppointmentDateTimeForId } from '../repositories/appointmentRepository/getAppointmentDateTimeForId.js'
 import { cancelAppointmentForId } from '../repositories/appointmentRepository/cancelAppointmentForId.js'
+import { getAuthIdUser } from '../utils/getAuthIdUser.js'
+import { getPetsForId } from '../repositories/userRepository/getPetsForId.js'
 
 async function userRegisterController (req, res) {
   try {
@@ -83,4 +85,17 @@ async function userCancelAppointmentController (req, res) {
   }
 }
 
-export { userRegisterController, userCreateAppointmentController, userCancelAppointmentController }
+async function userGetPetsController (req, res) {
+  try {
+    const idUser = await getAuthIdUser(req)
+    const pets = await getPetsForId(idUser)
+    return res.send({ pets })
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(400).json({ message: error.message })
+    }
+    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado' })
+  }
+}
+
+export { userRegisterController, userCreateAppointmentController, userCancelAppointmentController, userGetPetsController }
