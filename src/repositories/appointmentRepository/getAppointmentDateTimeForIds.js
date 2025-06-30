@@ -1,14 +1,16 @@
 import { createConnection } from '../../config/databaseConnection.js'
 
-async function getAppointmentDateTimeForId (idAppointment) {
+async function getAppointmentDateTimeForIds (idAppointment, idUser) {
   try {
     const sql = `
-      SELECT date, startTime, endTime
+      SELECT Appointment.date, Appointment.startTime, Appointment.endTime
       FROM Appointment
-      WHERE idAppointment = ? ;
+      INNER JOIN Pet ON Pet.idPet = Appointment.idPet
+      INNER JOIN User ON User.idUser = Pet.idUser
+      WHERE Appointment.idAppointment = ? AND User.idUser = ? ;
     `
     const connection = await createConnection()
-    const [result] = await connection.execute(sql, [idAppointment])
+    const [result] = await connection.execute(sql, [idAppointment, idUser])
     return result[0]
   } catch (error) {
     if (error.code === 'ER_NO_SUCH_TABLE') {
@@ -21,4 +23,4 @@ async function getAppointmentDateTimeForId (idAppointment) {
   }
 }
 
-export { getAppointmentDateTimeForId }
+export { getAppointmentDateTimeForIds }

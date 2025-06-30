@@ -5,10 +5,12 @@ import { appointmentSchema } from '../validations/appointmentSchema.js'
 import { userSchema } from '../validations/userSchema.js'
 import { verifySchedule } from '../repositories/appointmentRepository/verifySchedule.js'
 import { registerAppointment } from '../repositories/appointmentRepository/registerAppointment.js'
-import { getAppointmentDateTimeForId } from '../repositories/appointmentRepository/getAppointmentDateTimeForId.js'
 import { cancelAppointmentForId } from '../repositories/appointmentRepository/cancelAppointmentForId.js'
 import { getAuthIdUser } from '../utils/getAuthIdUser.js'
 import { getPetsForId } from '../repositories/userRepository/getPetsForId.js'
+import { getDiagnosticForIds } from '../repositories/userRepository/getDignosticForIds.js'
+import { getAppointmentDateTimeForIds } from '../repositories/appointmentRepository/getAppointmentDateTimeForIds.js'
+import { getAppointmentsForUserId } from '../repositories/userRepository/getAppointmentsForUserId.js'
 
 async function userRegisterController (req, res) {
   try {
@@ -56,8 +58,8 @@ async function userCreateAppointmentController (req, res) {
 async function userCancelAppointmentController (req, res) {
   try {
     const { idAppointment } = req.body
-    // TODO: Validar que sea el usuario el due;o de la cita
-    const appointmentDateTime = await getAppointmentDateTimeForId(idAppointment) // { date, startTime, endTime }
+    const idUser = await getAuthIdUser(req)
+    const appointmentDateTime = await getAppointmentDateTimeForIds(idAppointment, idUser) // { date, startTime, endTime }
     const appointmentDate = (appointmentDateTime.date)
     if (isSameDay(new Date(appointmentDate), Date.now())) {
       return res.status(400).send({ message: 'No puede cancelar el mismo día de la cita.' })
@@ -98,4 +100,35 @@ async function userGetPetsController (req, res) {
   }
 }
 
-export { userRegisterController, userCreateAppointmentController, userCancelAppointmentController, userGetPetsController }
+async function userViewDiagnosticController (req, res) {
+  try {
+    const idUser = await getAuthIdUser(req)
+    const { idAppointment } = req.body
+
+    const result = await getDiagnosticForIds(idUser, idAppointment)
+
+    return res.send({ diagnostics: result })
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(400).json({ message: error.message })
+    }
+    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado' })
+  }
+}
+
+async function userViewAppointmentsController (req, res) {
+  try {
+    const idUser = await getAuthIdUser(req)
+
+    const result = await getAppointmentsForUserId(idUser)
+
+    return res.send({ appointments: result })
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(400).json({ message: error.message })
+    }
+    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado' })
+  }
+}
+
+export { userRegisterController, userCreateAppointmentController, userCancelAppointmentController, userGetPetsController, userViewDiagnosticController, userViewAppointmentsController }
