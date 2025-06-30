@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="RPAzpnmm1RsqbhSX1ocx" name="Page-1">
-        <mxGraphModel dx="1546" dy="371" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1407" dy="297" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -153,14 +153,6 @@
                 <mxCell id="23" value="/cancelDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="510" y="680" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="50" style="edgeStyle=none;html=1;" parent="1" source="24" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="150.0000000000001" y="710" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="24" value="/cancelDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="170" y="680" width="120" height="60" as="geometry"/>
-                </mxCell>
                 <mxCell id="64" style="edgeStyle=none;html=1;" parent="1" source="25" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="480" y="790" as="targetPoint"/>
@@ -219,7 +211,7 @@
                 </mxCell>
                 <mxCell id="40" value="" style="endArrow=none;html=1;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="150" y="730" as="sourcePoint"/>
+                        <mxPoint x="150" y="670" as="sourcePoint"/>
                         <mxPoint x="170" y="240" as="targetPoint"/>
                         <Array as="points">
                             <mxPoint x="150" y="240"/>

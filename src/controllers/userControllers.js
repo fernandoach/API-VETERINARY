@@ -56,7 +56,7 @@ async function userCreateAppointmentController (req, res) {
 async function userCancelAppointmentController (req, res) {
   try {
     const { idAppointment } = req.body
-
+    // TODO: Validar que sea el usuario el due;o de la cita
     const appointmentDateTime = await getAppointmentDateTimeForId(idAppointment) // { date, startTime, endTime }
     const appointmentDate = (appointmentDateTime.date)
     if (isSameDay(new Date(appointmentDate), Date.now())) {
