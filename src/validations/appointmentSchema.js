@@ -11,14 +11,14 @@ const appointmentSchema = Joi.object({
       today.setHours(0, 0, 0, 0)
 
       if (selectedDate < today) {
-        return helpers.error('date.min')
+        return helpers.error('any.custom', { message: 'La fecha no puede ser anterior a hoy' })
       }
       return value
     })
     .messages({
       'string.base': 'La fecha debe ser una cadena en formato yyyy-mm-dd',
       'string.pattern.base': 'La fecha debe tener el formato yyyy-mm-dd',
-      'date.min': 'La fecha no puede ser anterior a hoy',
+      'any.custom': '{{#message}}',
       'any.required': 'La fecha es requerida'
     }),
   startTime: Joi.string()

@@ -1,4 +1,4 @@
-import { addMinutes, compareAsc, isSameDay } from 'date-fns'
+import { addMinutes, compareAsc, differenceInMinutes, isBefore, isSameDay } from 'date-fns'
 import { registerUser } from '../repositories/userRepository/registerUser.js'
 import { hashPassword } from '../utils/hashPassword.js'
 import { appointmentSchema } from '../validations/appointmentSchema.js'
@@ -12,6 +12,7 @@ import { getDiagnosticForIds } from '../repositories/userRepository/getDignostic
 import { getAppointmentDateTimeForIds } from '../repositories/appointmentRepository/getAppointmentDateTimeForIds.js'
 import { getAppointmentsForUserId } from '../repositories/userRepository/getAppointmentsForUserId.js'
 import { getVeterinarians } from '../repositories/userRepository/getVeterinarians.js'
+import { validatePetForIds } from '../repositories/veterinaryRepository/validatePetForIds.js'
 
 async function userRegisterController (req, res) {
   try {
@@ -41,7 +42,22 @@ async function userCreateAppointmentController (req, res) {
     const [hour, minutes] = startTime.split(':')
     const endTime = addMinutes(new Date(year, month, day, hour, minutes, 0), 60)
     const stateSchedule = await verifySchedule(date, idVeterinary, endTime, startTime)
-    console.log(stateSchedule)
+
+    const appointmentDate = new Date(year, month - 1, day, hour, minutes)
+    const now = new Date()
+
+    // Verifica si la fecha es pasada o si faltan menos de 2 horas
+    if (isBefore(appointmentDate, now) || differenceInMinutes(appointmentDate, now) < 120) {
+      return res.status(400).send({ message: 'No puede reservar en una fecha pasada o con menos de 2 horas de anticipación.' })
+    }
+
+    const idUser = await getAuthIdUser(req)
+    const validatePet = await validatePetForIds(idPet, idUser)
+
+    if (validatePet === 0) {
+      return res.status(400).send({ message: 'Mascota o veterinario no existentes.' })
+    }
+
     if (stateSchedule) {
       await registerAppointment(date, startTime, endTime, reason, idVeterinary, idPet)
       return res.send({ message: `Cita registrada para: ${year}-${month}-${day} a las ${hour}:${minutes} hasta las ${endTime.getHours().toString().padStart(2, '0')}:${endTime.getMinutes().toString().padStart(2, '0')}` })

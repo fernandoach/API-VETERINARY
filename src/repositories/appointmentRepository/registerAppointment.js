@@ -11,7 +11,7 @@ async function registerAppointment (date, startTime, endTime, reason, idVeterina
         reason,
         idVeterinary,
         idPet
-      ) VALUES (UUID(), ?, ?, ?, ?, ?, ?)
+      ) VALUES (UUID(), ?, ?, ?, ?, ?, ?) ;
     `
     const connection = await createConnection()
     const [result] = await connection.execute(sql, [date, startTime, endTime, reason, idVeterinary, idPet])
