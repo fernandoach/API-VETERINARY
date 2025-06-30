@@ -2,6 +2,7 @@ import { editUserPasswordForId } from '../repositories/userRepository/editUserPa
 import { getIdUserForEmail } from '../repositories/userRepository/getIdUserForEmail.js'
 import { getUserHashedPassword } from '../repositories/userRepository/getUserHashedPassword.js'
 import { getUserInfoForId } from '../repositories/userRepository/getUserInfoForId.js'
+import { getUserRoleForId } from '../repositories/userRepository/getUserRoleForId.js'
 import { getAuthIdUser } from '../utils/getAuthIdUser.js'
 import { hashPassword } from '../utils/hashPassword.js'
 import { signJWT } from '../utils/signJWT.js'
@@ -21,7 +22,8 @@ async function loginController (req, res) {
     const validation = await validatePassword(userPassword, password)
     if (validation) {
       const jwt = signJWT(idUser)
-      return res.json({ accesToken: jwt })
+      const role = await getUserRoleForId(idUser)
+      return res.json({ accesToken: jwt, role })
     } else {
       return res.status(400).json({ message: 'Usuario y/o contraseña invalidos.' })
     }

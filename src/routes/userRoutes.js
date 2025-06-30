@@ -1,13 +1,15 @@
 import { Router } from 'express'
-import { userCancelAppointmentController, userCreateAppointmentController, userGetPetsController, userRegisterController, userViewAppointmentsController, userViewDiagnosticController } from '../controllers/userControllers.js'
+import { userCancelAppointmentController, userCreateAppointmentController, userRegisterController, userViewAppointmentsController, userViewDiagnosticController, userViewPetsController, userViewVeterinariansController } from '../controllers/userControllers.js'
+import { authUserMiddleware } from '../middlewares/authMiddlewares.js'
 
 const userRouter = Router()
 
 userRouter.post('/register', userRegisterController)
-userRouter.post('/appointment', userCreateAppointmentController)
-userRouter.put('/cancelAppointment', userCancelAppointmentController)
-userRouter.get('/viewPets', userGetPetsController)
-userRouter.get('/viewDiagnostic', userViewDiagnosticController)
-userRouter.get('/viewAppointments', userViewAppointmentsController)
+userRouter.post('/createAppointment', authUserMiddleware, userCreateAppointmentController)
+userRouter.put('/cancelAppointment', authUserMiddleware, userCancelAppointmentController)
+userRouter.get('/viewPets', authUserMiddleware, userViewPetsController)
+userRouter.get('/viewDiagnostic', authUserMiddleware, userViewDiagnosticController)
+userRouter.get('/viewAppointments', authUserMiddleware, userViewAppointmentsController)
+userRouter.get('/viewVeterinarians', authUserMiddleware, userViewVeterinariansController)
 
 export { userRouter }

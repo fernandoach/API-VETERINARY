@@ -11,6 +11,7 @@ import { getPetsForId } from '../repositories/userRepository/getPetsForId.js'
 import { getDiagnosticForIds } from '../repositories/userRepository/getDignosticForIds.js'
 import { getAppointmentDateTimeForIds } from '../repositories/appointmentRepository/getAppointmentDateTimeForIds.js'
 import { getAppointmentsForUserId } from '../repositories/userRepository/getAppointmentsForUserId.js'
+import { getVeterinarians } from '../repositories/userRepository/getVeterinarians.js'
 
 async function userRegisterController (req, res) {
   try {
@@ -87,7 +88,7 @@ async function userCancelAppointmentController (req, res) {
   }
 }
 
-async function userGetPetsController (req, res) {
+async function userViewPetsController (req, res) {
   try {
     const idUser = await getAuthIdUser(req)
     const pets = await getPetsForId(idUser)
@@ -131,4 +132,17 @@ async function userViewAppointmentsController (req, res) {
   }
 }
 
-export { userRegisterController, userCreateAppointmentController, userCancelAppointmentController, userGetPetsController, userViewDiagnosticController, userViewAppointmentsController }
+async function userViewVeterinariansController (req, res) {
+  try {
+    const result = await getVeterinarians()
+
+    return res.send({ appointments: result })
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(400).json({ message: error.message })
+    }
+    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado' })
+  }
+}
+
+export { userRegisterController, userCreateAppointmentController, userCancelAppointmentController, userViewPetsController, userViewDiagnosticController, userViewAppointmentsController, userViewVeterinariansController }

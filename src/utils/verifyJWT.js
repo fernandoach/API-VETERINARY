@@ -6,7 +6,7 @@ function verifyJWT (token) {
     const verify = jwt.verify(token, secretKey)
     return verify
   } catch (error) {
-    throw new Error('Error al verificar token.')
+    throw new Error('Sin autorización.')
   }
 }
 
