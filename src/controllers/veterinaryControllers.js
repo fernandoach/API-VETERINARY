@@ -9,6 +9,8 @@ import { cancelVeterinaryAppointment } from '../repositories/veterinaryRepositor
 import { petSchema } from '../validations/petSchema.js'
 import { getIdUserForDni } from '../repositories/userRepository/getIdUserForDni.js'
 import { registerPet } from '../repositories/petRepository/registerPet.js'
+import { validateExistUser } from '../repositories/userRepository/validateExistUser.js'
+import { viewPetsForIdUser } from '../repositories/petRepository/viewPetsForIdUser.js'
 
 async function veterinaryCreateAppointmentController (req, res) {
   try {
@@ -110,4 +112,25 @@ async function veterinaryCreatePetController (req, res) {
   }
 }
 
-export { veterinaryCreateAppointmentController, veterinaryCancelAppointmentController, veterinaryCreatePetController }
+async function veterinaryViewPetsController (req, res) {
+  try {
+    const { idUser } = req.body
+    // TODO: validar usuario existente
+    const validateUser = await validateExistUser(idUser)
+    if (validateUser === false) {
+      return res.status(400).send({ message: 'El usuario no existe.' })
+    }
+    // TODO: obtener mascotas por idUser
+    const myPets = await viewPetsForIdUser(idUser)
+
+    if (myPets.length === 0) return res.status(400).send({ message: 'El cliente aun no tiene mascotas registradas. ' })
+    return res.send({ pets: myPets })
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(400).json({ message: error.message })
+    }
+    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado. ' })
+  }
+}
+
+export { veterinaryCreateAppointmentController, veterinaryCancelAppointmentController, veterinaryCreatePetController, veterinaryViewPetsController }
