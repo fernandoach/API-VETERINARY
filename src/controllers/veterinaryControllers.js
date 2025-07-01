@@ -1,8 +1,11 @@
-import { addMinutes, differenceInMinutes, isBefore } from 'date-fns'
+import { addMinutes, compareAsc, differenceInMinutes, isBefore, isSameDay } from 'date-fns'
 import { getAuthIdUser } from '../utils/getAuthIdUser.js'
 import { appointmentSchema } from '../validations/appointmentSchema.js'
 import { verifySchedule } from '../repositories/appointmentRepository/verifySchedule.js'
 import { registerAppointment } from '../repositories/appointmentRepository/registerAppointment.js'
+import { validateVeterinaryAppointment } from '../repositories/veterinaryRepository/validateVeterinaryAppointment.js'
+import { getAppointmentDateTimeForIds } from '../repositories/veterinaryRepository/getAppointmentDateTimeForIds.js'
+import { cancelVeterinaryAppointment } from '../repositories/veterinaryRepository/cancelVeterinaryAppointment.js'
 
 async function veterinaryCreateAppointmentController (req, res) {
   try {
@@ -40,4 +43,40 @@ async function veterinaryCreateAppointmentController (req, res) {
   }
 }
 
-export { veterinaryCreateAppointmentController }
+async function veterinaryCancelAppointmentController (req, res) {
+  try {
+    const { idAppointment } = req.body
+    const idVeterinary = await getAuthIdUser(req)
+    const cancelStatus = await validateVeterinaryAppointment(idVeterinary, idAppointment)
+
+    const appointmentQuery = await getAppointmentDateTimeForIds(idAppointment, idVeterinary)
+
+    if (typeof appointmentQuery === 'undefined') {
+      throw new Error('Sin autorizzación. ')
+    }
+    const appointmentDate = appointmentQuery.date
+
+    if (isSameDay(new Date(appointmentDate), Date.now())) {
+      return res.status(400).send({ message: 'No puede cancelar el mismo día de la cita.' })
+    }
+    const compareDate = compareAsc(new Date(appointmentDate), new Date(Date.now()))
+
+    if (compareDate === -1) {
+      return res.status(400).send({ message: 'No puede cancelar una cita de fecha pasada.' })
+    }
+
+    if (cancelStatus) {
+      const cancelAppointmentResult = await cancelVeterinaryAppointment(idAppointment)
+      return cancelAppointmentResult ? res.send({ message: `Cita de id: ${idAppointment} cancelada con éxito. ` }) : res.status(400).send({ message: 'La cita ya esta cancelada o ya fue completada. ' })
+    }
+
+    return res.send(cancelStatus)
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(400).json({ message: error.message })
+    }
+    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado' })
+  }
+}
+
+export { veterinaryCreateAppointmentController, veterinaryCancelAppointmentController }
