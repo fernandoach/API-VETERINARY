@@ -9,7 +9,7 @@ const userSchema = Joi.object({
     .messages({
       'string.base': 'El nombre debe ser una cadena de caracteres',
       'string.empty': 'El nombre no puede estar vacio',
-      'string.min': 'El nombre debe contener minimo 5 caracteres',
+      'string.min': 'El nombre debe contener minimo 3 caracteres',
       'string.max': 'El nombre solo puede contener máximo 50 caracteres',
       'string.pattern.base': 'El nombre solo puede contener letras',
       'any.required': 'El nombre es requerido'
@@ -22,7 +22,7 @@ const userSchema = Joi.object({
     .messages({
       'string.base': 'El apellido debe ser una cadena de caracteres',
       'string.empty': 'El apellido no puede estar vacio',
-      'string.min': 'El apellido debe contener minimo 5 caracteres',
+      'string.min': 'El apellido debe contener minimo 3 caracteres',
       'string.max': 'El apellido solo puede contener máximo 50 caracteres',
       'string.pattern.base': 'El apellido solo puede contener letras',
       'any.required': 'El apellido es requerido'

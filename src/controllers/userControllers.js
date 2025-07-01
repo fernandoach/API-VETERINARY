@@ -23,7 +23,7 @@ async function userRegisterController (req, res) {
 
     await registerUser(firstname, lastname, gender, birthday, dni, telephone, email, hashedPassword)
 
-    return res.json({ message: 'Registrado con éxito' })
+    return res.send({ message: 'Registrado con éxito' })
   } catch (error) {
     if (error instanceof Error) {
       return res.status(400).json({ message: error.message })

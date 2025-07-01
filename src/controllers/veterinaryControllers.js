@@ -6,6 +6,9 @@ import { registerAppointment } from '../repositories/appointmentRepository/regis
 import { validateVeterinaryAppointment } from '../repositories/veterinaryRepository/validateVeterinaryAppointment.js'
 import { getAppointmentDateTimeForIds } from '../repositories/veterinaryRepository/getAppointmentDateTimeForIds.js'
 import { cancelVeterinaryAppointment } from '../repositories/veterinaryRepository/cancelVeterinaryAppointment.js'
+import { petSchema } from '../validations/petSchema.js'
+import { getIdUserForDni } from '../repositories/userRepository/getIdUserForDni.js'
+import { registerPet } from '../repositories/petRepository/registerPet.js'
 
 async function veterinaryCreateAppointmentController (req, res) {
   try {
@@ -79,4 +82,32 @@ async function veterinaryCancelAppointmentController (req, res) {
   }
 }
 
-export { veterinaryCreateAppointmentController, veterinaryCancelAppointmentController }
+async function veterinaryCreatePetController (req, res) {
+  try {
+    const { name, species, race, gender, weight, birthday, dni } = req.body
+    await petSchema.validateAsync({ name, species, race, gender, weight, birthday, dni })
+
+    const compareDate = compareAsc(new Date(birthday), new Date(Date.now()))
+
+    if (compareDate === 1) {
+      return res.status(400).send({ message: 'La fecha de nacimiento no puede ser una fecha posterior a hoy' })
+    }
+
+    const idOwner = await getIdUserForDni(dni)
+
+    if (idOwner === -1) {
+      return res.status(400).send({ message: 'El dni debe ser valido' })
+    }
+
+    const insertResult = await registerPet(name, species, race, gender, weight, birthday, idOwner)
+
+    return insertResult.affectedRows === 1 ? res.send({ message: 'Registrado con éxito' }) : res.status(400).send({ message: 'No se pudo registrar la mascota.' })
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(400).json({ message: error.message })
+    }
+    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado' })
+  }
+}
+
+export { veterinaryCreateAppointmentController, veterinaryCancelAppointmentController, veterinaryCreatePetController }
