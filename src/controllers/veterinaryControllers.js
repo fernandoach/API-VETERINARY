@@ -12,6 +12,7 @@ import { registerPet } from '../repositories/petRepository/registerPet.js'
 import { validateExistUser } from '../repositories/userRepository/validateExistUser.js'
 import { viewPetsForIdUser } from '../repositories/petRepository/viewPetsForIdUser.js'
 import { editAppointmentForId } from '../repositories/appointmentRepository/editAppointmentForId.js'
+import { editPetForIdPet } from '../repositories/petRepository/editPetForIdPet.js'
 
 async function veterinaryCreateAppointmentController (req, res) {
   try {
@@ -116,12 +117,10 @@ async function veterinaryCreatePetController (req, res) {
 async function veterinaryViewPetsController (req, res) {
   try {
     const { idUser } = req.body
-    // TODO: validar usuario existente
     const validateUser = await validateExistUser(idUser)
     if (validateUser === false) {
       return res.status(400).send({ message: 'El usuario no existe.' })
     }
-    // TODO: obtener mascotas por idUser
     const myPets = await viewPetsForIdUser(idUser)
 
     if (myPets.length === 0) return res.status(400).send({ message: 'El cliente aun no tiene mascotas registradas. ' })
@@ -169,4 +168,26 @@ async function veterinaryEditAppointmentController (req, res) {
   }
 }
 
-export { veterinaryCreateAppointmentController, veterinaryCancelAppointmentController, veterinaryCreatePetController, veterinaryViewPetsController, veterinaryEditAppointmentController }
+async function veterinaryEditPetController (req, res) {
+  try {
+    const { idPet, name, species, race, gender, weight, birthday, dni } = req.body
+
+    await petSchema.validateAsync({ name, species, race, gender, weight, birthday, dni })
+    const idUser = await getIdUserForDni(dni)
+
+    const queryResult = await editPetForIdPet(idPet, name, species, race, gender, weight, birthday, idUser)
+
+    if (!queryResult) {
+      return res.status(400).send({ message: 'No se pudo modificar la cita.' })
+    }
+
+    return res.send({ message: 'Información de mascota editada correctamente.' })
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(400).json({ message: error.message })
+    }
+    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado. ' })
+  }
+}
+
+export { veterinaryCreateAppointmentController, veterinaryCancelAppointmentController, veterinaryCreatePetController, veterinaryViewPetsController, veterinaryEditAppointmentController, veterinaryEditPetController }

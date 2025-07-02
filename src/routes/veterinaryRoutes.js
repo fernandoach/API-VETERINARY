@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { authVeterinaryMiddleware } from '../middlewares/authMiddlewares.js'
-import { veterinaryCancelAppointmentController, veterinaryCreateAppointmentController, veterinaryCreatePetController, veterinaryEditAppointmentController, veterinaryViewPetsController } from '../controllers/veterinaryControllers.js'
+import { veterinaryCancelAppointmentController, veterinaryCreateAppointmentController, veterinaryCreatePetController, veterinaryEditAppointmentController, veterinaryEditPetController, veterinaryViewPetsController } from '../controllers/veterinaryControllers.js'
 
 const veterinaryRouter = Router()
 
@@ -9,5 +9,6 @@ veterinaryRouter.put('/cancelAppointment', authVeterinaryMiddleware, veterinaryC
 veterinaryRouter.post('/createPet', authVeterinaryMiddleware, veterinaryCreatePetController)
 veterinaryRouter.get('/viewPets', authVeterinaryMiddleware, veterinaryViewPetsController)
 veterinaryRouter.put('/editAppointment', authVeterinaryMiddleware, veterinaryEditAppointmentController)
+veterinaryRouter.put('/editPet', authVeterinaryMiddleware, veterinaryEditPetController)
 
 export { veterinaryRouter }
