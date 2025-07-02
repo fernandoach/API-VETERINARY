@@ -46,6 +46,7 @@ async function authVeterinaryMiddleware (req, res, next) {
 
     const idUser = verify.data
     const role = await getUserRoleForId(idUser)
+
     if (!(['A', 'V'].includes(role))) {
       return res.status(400).json({ message: 'Sin autorización.' })
     }

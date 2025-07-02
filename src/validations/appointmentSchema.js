@@ -19,7 +19,8 @@ const appointmentSchema = Joi.object({
       'string.base': 'La fecha debe ser una cadena en formato yyyy-mm-dd',
       'string.pattern.base': 'La fecha debe tener el formato yyyy-mm-dd',
       'any.custom': '{{#message}}',
-      'any.required': 'La fecha es requerida'
+      'any.required': 'La fecha es requerida',
+      'string.empty': 'La fecha no puede estar vacía.'
     }),
   startTime: Joi.string()
     .pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) // Formato HH:MM
@@ -27,7 +28,8 @@ const appointmentSchema = Joi.object({
     .messages({
       'string.base': 'La hora de inicio debe ser una cadena.',
       'string.pattern.base': 'La hora de inicio debe tener el formato HH:MM',
-      'any.required': 'La hora de inicio es requerida.'
+      'any.required': 'La hora de inicio es requerida.',
+      'string.empty': 'La hora de inicio no puede estar vacía.'
     }),
   reason: Joi.string()
     .min(5)
@@ -44,10 +46,11 @@ const appointmentSchema = Joi.object({
     }),
   state: Joi.string()
     .valid('P', 'C', 'X')
-    .default('p')
+    .default('P')
     .messages({
       'string.base': 'El estado debe ser una cadena.',
-      'any.only': 'El estado debe ser P (pendiente), C (completado) o X (cancelado).'
+      'any.only': 'El estado debe ser P (pendiente), C (completado) o X (cancelado).',
+      'string.empty': 'El estado no puede estar vacío.'
     }),
   idVeterinary: Joi.string()
     .guid()
@@ -55,7 +58,8 @@ const appointmentSchema = Joi.object({
     .messages({
       'string.base': 'El ID del veterinario debe ser una cadena.',
       'string.guid': 'El ID del veterinario debe tener formato válido.',
-      'any.required': 'El ID del veterinario es requerido.'
+      'any.required': 'El ID del veterinario es requerido.',
+      'string.empty': 'El veterinario no puede estar vacío.'
     }),
   idPet: Joi.string()
     .guid()
@@ -63,7 +67,8 @@ const appointmentSchema = Joi.object({
     .messages({
       'string.base': 'El ID de la mascota debe ser una cadena de texto.',
       'string.guid': 'El ID de la mascota debe tener formato válido.',
-      'any.required': 'El ID de la mascota es requerido.'
+      'any.required': 'El ID de la mascota es requerido.',
+      'string.empty': 'La fecha no puede estar vacía.'
     })
 })
 

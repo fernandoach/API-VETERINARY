@@ -11,6 +11,7 @@ import { getIdUserForDni } from '../repositories/userRepository/getIdUserForDni.
 import { registerPet } from '../repositories/petRepository/registerPet.js'
 import { validateExistUser } from '../repositories/userRepository/validateExistUser.js'
 import { viewPetsForIdUser } from '../repositories/petRepository/viewPetsForIdUser.js'
+import { editAppointmentForId } from '../repositories/appointmentRepository/editAppointmentForId.js'
 
 async function veterinaryCreateAppointmentController (req, res) {
   try {
@@ -133,4 +134,39 @@ async function veterinaryViewPetsController (req, res) {
   }
 }
 
-export { veterinaryCreateAppointmentController, veterinaryCancelAppointmentController, veterinaryCreatePetController, veterinaryViewPetsController }
+async function veterinaryEditAppointmentController (req, res) {
+  try {
+    const { idAppointment, date, startTime, idPet, reason, state } = req.body
+    const idVeterinary = await getAuthIdUser(req)
+
+    await appointmentSchema.validateAsync({ date, startTime, reason, state, idVeterinary, idPet })
+
+    const validateAppointment = await validateVeterinaryAppointment(idVeterinary, idAppointment)
+
+    if (!validateAppointment) {
+      return res.status(400).send({ message: 'Sin autorización.' })
+    }
+
+    const [year, month, day] = date.split('-').map(Number)
+    const [hour, minutes] = startTime.split(':').map(Number)
+
+    const appointmentDate = new Date(year, month - 1, day, hour, minutes)
+
+    const endTime = addMinutes(appointmentDate, 60)
+
+    const queryResult = await editAppointmentForId(idAppointment, date, startTime, endTime, reason, idPet, idVeterinary)
+
+    if (!queryResult) {
+      return res.status(400).send({ message: 'No se pudo modificar la cita.' })
+    }
+
+    return res.send({ message: 'Cita editada correctamente.' })
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(400).json({ message: error.message })
+    }
+    return res.status(400).json(error.details[0].message ? { message: error.details[0].message } : { message: 'Error inesperado. ' })
+  }
+}
+
+export { veterinaryCreateAppointmentController, veterinaryCancelAppointmentController, veterinaryCreatePetController, veterinaryViewPetsController, veterinaryEditAppointmentController }
