@@ -1,12 +1,12 @@
 import express from 'express'
-import { changePasswordController, getAuthUserInfoController, getUserInfoForIdController, loginController } from '../controllers/authControllers.js'
 import { authUserMiddleware } from '../middlewares/authMiddlewares.js'
+import { authLoginController } from '../controllers/authControllers/authLoginController.js'
+import { getAuthUserInfoController } from '../controllers/authControllers/authGetUserInfoController.js'
+import { changePasswordController } from '../controllers/authControllers/authChangePasswordController.js'
 
 const authRouter = express.Router()
 
-authRouter.post('/login', loginController)
-
-authRouter.get('/getAuthIdUser', authUserMiddleware, getUserInfoForIdController)
+authRouter.post('/login', authLoginController)
 
 authRouter.get('/getAuthUserInfo', authUserMiddleware, getAuthUserInfoController)
 

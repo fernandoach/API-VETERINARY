@@ -1,7 +1,11 @@
 import { createConnection } from '../../config/databaseConnection.js'
 
 async function registerAppointment (date, startTime, endTime, reason, idVeterinary, idPet) {
+  let connection
+
   try {
+    connection = await createConnection()
+
     const sql = `
       INSERT INTO Appointment (
         idAppointment,
@@ -11,22 +15,32 @@ async function registerAppointment (date, startTime, endTime, reason, idVeterina
         reason,
         idVeterinary,
         idPet
-      ) VALUES (UUID(), ?, ?, ?, ?, ?, ?) ;
+      ) VALUES (UUID(), ?, ?, ?, ?, ?, ?);
     `
-    const connection = await createConnection()
-    const [result] = await connection.execute(sql, [date, startTime, endTime, reason, idVeterinary, idPet])
+
+    const [result] = await connection.execute(sql, [
+      date,
+      startTime,
+      endTime,
+      reason,
+      idVeterinary,
+      idPet
+    ])
+
     return result
   } catch (error) {
-    if (error.code === 'ER_DUP_ENTRY') {
-      throw new Error('El correo o DNI proporcionado ya está registrado.')
+    switch (error.code) {
+      case 'ER_DUP_ENTRY':
+        throw new Error('Ya existe un registro duplicado (cita con ID repetido).')
+      case 'ER_NO_SUCH_TABLE':
+        throw new Error('La tabla "Appointment" no existe en la base de datos.')
+      case 'ER_NO_REFERENCED_ROW_2':
+        throw new Error('El veterinario o la mascota no existen (clave foránea inválida).')
+      default:
+        throw new Error('No se pudo registrar la cita.')
     }
-    if (error.code === 'ER_NO_SUCH_TABLE') {
-      throw new Error('La tabla no existe en la base de datos.')
-    }
-    if (error.code.includes('ER_NO_REFERENCED_ROW')) {
-      throw new Error('Mascota o veterinario no existentes.')
-    }
-    throw new Error(error)
+  } finally {
+    if (connection) await connection.end()
   }
 }
 

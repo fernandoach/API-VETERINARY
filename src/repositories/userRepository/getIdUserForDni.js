@@ -1,20 +1,24 @@
 import { createConnection } from '../../config/databaseConnection.js'
 
 async function getIdUserForDni (dni) {
+  let connection
+
   try {
+    connection = await createConnection()
+
     const sql = `
-      SELECT idUser FROM User
-      WHERE dni = ?
+      SELECT idUser
+      FROM User
+      WHERE dni = ?;
     `
 
-    const connection = await createConnection()
-    const [result] = await connection.query(sql, [dni])
-    if (result.length === 0) {
-      return -1
-    }
-    return result[0].idUser
+    const [rows] = await connection.execute(sql, [dni])
+
+    return rows.length > 0 ? rows[0].idUser : -1
   } catch (error) {
-    return error
+    throw new Error('No se pudo obtener el usuario por DNI.')
+  } finally {
+    if (connection) await connection.end()
   }
 }
 

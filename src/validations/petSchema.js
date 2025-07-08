@@ -63,11 +63,20 @@ const petSchema = Joi.object({
       'number.max': 'El peso no puede ser mayor a 200',
       'any.required': 'El peso es requerido'
     }),
-  birthday: Joi.date()
+  birthday: Joi.string()
+    .pattern(/^\d{4}-\d{2}-\d{2}$/)
     .required()
+    .custom((value, helpers) => {
+      const date = new Date(value)
+      if (isNaN(date.getTime())) {
+        return helpers.error('any.invalid')
+      }
+      return value
+    })
     .messages({
-      'any.required': 'La fecha de nacimiento es requerida',
-      'date.base': 'La fecha de nacimiento debe ser una fecha valida'
+      'string.pattern.base': 'El formato de la fecha debe ser YYYY-MM-DD',
+      'any.invalid': 'La fecha no es válida',
+      'any.required': 'La fecha de nacimiento es requerida'
     }),
   dni: Joi.string()
     .min(3)

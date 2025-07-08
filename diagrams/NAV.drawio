@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="RPAzpnmm1RsqbhSX1ocx" name="Page-1">
-        <mxGraphModel dx="1749" dy="444" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1642" dy="507" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -91,11 +91,11 @@
                 </mxCell>
                 <mxCell id="76" style="edgeStyle=none;html=1;" parent="1" source="13" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="-70" y="530" as="targetPoint"/>
+                        <mxPoint x="-70" y="420" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="13" value="/changePassword" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-                    <mxGeometry x="-50" y="500" width="120" height="60" as="geometry"/>
+                    <mxGeometry x="-50" y="390" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="55" style="edgeStyle=none;html=1;" parent="1" source="14" edge="1">
                     <mxGeometry relative="1" as="geometry">
@@ -212,20 +212,12 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="75" style="edgeStyle=none;html=1;" parent="1" source="70" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="-70" y="430" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="70" value="/getAuthIdUser" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-                    <mxGeometry x="-50" y="400" width="120" height="60" as="geometry"/>
-                </mxCell>
                 <mxCell id="72" value="/auth" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="-50" y="210" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="73" value="" style="endArrow=none;html=1;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="-70" y="620" as="sourcePoint"/>
+                        <mxPoint x="-70" y="550" as="sourcePoint"/>
                         <mxPoint x="-50" y="230" as="targetPoint"/>
                         <Array as="points">
                             <mxPoint x="-70" y="230"/>
@@ -234,11 +226,11 @@
                 </mxCell>
                 <mxCell id="78" style="edgeStyle=none;html=1;" parent="1" source="77" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="-70" y="610" as="targetPoint"/>
+                        <mxPoint x="-70" y="510" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="77" value="/getAuthUserInfo" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-                    <mxGeometry x="-50" y="580" width="120" height="60" as="geometry"/>
+                    <mxGeometry x="-50" y="480" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="80" style="edgeStyle=none;html=1;" parent="1" source="81" edge="1">
                     <mxGeometry relative="1" as="geometry">
@@ -256,36 +248,36 @@
                 <mxCell id="88" value="/viewVeterinarians" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="170" y="750" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="93" style="edgeStyle=none;html=1;" edge="1" parent="1" source="94">
+                <mxCell id="93" style="edgeStyle=none;html=1;" parent="1" source="94" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="480" y="1030" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="94" value="/cancelDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="94" value="/cancelDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="510" y="1000" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="97" style="edgeStyle=none;html=1;" edge="1" parent="1" source="98">
+                <mxCell id="97" style="edgeStyle=none;html=1;" parent="1" source="98" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="480" y="790" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="98" value="/createDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="98" value="/createDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="510" y="760" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="99" style="edgeStyle=none;html=1;" edge="1" parent="1" source="100">
+                <mxCell id="99" style="edgeStyle=none;html=1;" parent="1" source="100" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="480" y="950" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="100" value="/editDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="100" value="/editDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="510" y="920" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="101" style="edgeStyle=none;html=1;" edge="1" parent="1" source="102">
+                <mxCell id="101" style="edgeStyle=none;html=1;" parent="1" source="102" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="480" y="870" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="102" value="/viewDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="102" value="/viewDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="510" y="840" width="120" height="60" as="geometry"/>
                 </mxCell>
             </root>

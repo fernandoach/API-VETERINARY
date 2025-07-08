@@ -1,6 +1,11 @@
 import { Router } from 'express'
 import { authVeterinaryMiddleware } from '../middlewares/authMiddlewares.js'
-import { veterinaryCancelAppointmentController, veterinaryCreateAppointmentController, veterinaryCreatePetController, veterinaryEditAppointmentController, veterinaryEditPetController, veterinaryViewPetsController } from '../controllers/veterinaryControllers.js'
+import { veterinaryCreateAppointmentController } from '../controllers/VeterinaryControllers/veterinaryCreateAppointmentController.js'
+import { veterinaryCancelAppointmentController } from '../controllers/VeterinaryControllers/veterinaryCancelAppointmentController.js'
+import { veterinaryCreatePetController } from '../controllers/VeterinaryControllers/veterinaryCreatePetController.js'
+import { veterinaryEditAppointmentController } from '../controllers/VeterinaryControllers/veterinaryEditAppointmentController.js'
+import { veterinaryEditPetController } from '../controllers/VeterinaryControllers/veterinaryEditPetController.js'
+import { veterinaryViewPetsController } from '../controllers/VeterinaryControllers/veterinaryViewPetsController.js'
 
 const veterinaryRouter = Router()
 

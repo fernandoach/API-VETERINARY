@@ -1,20 +1,26 @@
 import { createConnection } from '../../config/databaseConnection.js'
 
 async function getIdUserForEmail (email) {
+  let connection
+
   try {
+    connection = await createConnection()
+
     const sql = `
       SELECT idUser FROM User
-      WHERE email = ?
+      WHERE email = ?;
     `
+    const [rows] = await connection.execute(sql, [email])
 
-    const connection = await createConnection()
-    const [result] = await connection.query(sql, [email])
-    if (result.length === 0) {
-      return -1
+    if (rows.length === 0) {
+      throw new Error('Usuario y/o contraseña invalidos')
     }
-    return result[0].idUser
+
+    return rows[0].idUser
   } catch (error) {
-    return error
+    throw new Error('Usuario y/o contraseña invalidos')
+  } finally {
+    if (connection) await connection.end()
   }
 }
 

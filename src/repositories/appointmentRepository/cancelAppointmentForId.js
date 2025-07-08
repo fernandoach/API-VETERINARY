@@ -1,23 +1,35 @@
 import { createConnection } from '../../config/databaseConnection.js'
 
 async function cancelAppointmentForId (idAppointment) {
+  let connection
+
   try {
+    connection = await createConnection()
+
     const sql = `
       UPDATE Appointment
       SET state = "X"
-      WHERE idAppointment = ? AND state <> "X";
+      WHERE idAppointment = ? AND state <> "X" AND state <> "C";
     `
-    const connection = await createConnection()
+
     const [result] = await connection.execute(sql, [idAppointment])
-    return result.affectedRows
+
+    if (result.affectedRows === 0) {
+      return false
+    }
+
+    return true
   } catch (error) {
-    if (error.code === 'ER_NO_SUCH_TABLE') {
-      throw new Error('La tabla no existe en la base de datos.')
+    switch (error.code) {
+      case 'ER_NO_SUCH_TABLE':
+        throw new Error('La tabla Appointment no existe en la base de datos.')
+      case 'ER_NO_REFERENCED_ROW_2':
+        throw new Error('Referencia inválida: mascota o veterinario no existen.')
+      default:
+        throw new Error('No se pudo cancelar la cita.')
     }
-    if (error.code.includes('ER_NO_REFERENCED_ROW')) {
-      throw new Error('Mascota o veterinario no existentes.')
-    }
-    throw new Error(error)
+  } finally {
+    if (connection) await connection.end()
   }
 }
 

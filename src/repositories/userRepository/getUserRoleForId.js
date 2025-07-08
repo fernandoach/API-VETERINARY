@@ -1,20 +1,27 @@
 import { createConnection } from '../../config/databaseConnection.js'
 
 async function getUserRoleForId (idUser) {
+  let connection
+
   try {
+    connection = await createConnection()
+
     const sql = `
       SELECT role FROM User
       WHERE idUser = ?;
     `
+    const [rows] = await connection.execute(sql, [idUser])
 
-    const connection = await createConnection()
-    const [result] = await connection.query(sql, [idUser])
-    if (result.length === 0) {
-      return -1
+    if (rows.length === 0) {
+      throw new Error('No se pudo obtener el rol del usuario')
     }
-    return result[0].role
+
+    return rows[0].role
   } catch (error) {
-    return error
+    console.error('Error al obtener el rol del usuario:', error.message)
+    throw new Error('No se pudo obtener el rol del usuario')
+  } finally {
+    if (connection) await connection.end()
   }
 }
 

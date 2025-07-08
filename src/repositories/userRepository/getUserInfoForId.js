@@ -1,31 +1,28 @@
 import { createConnection } from '../../config/databaseConnection.js'
 
 async function getUserInfoForId (idUser) {
+  let connection
+
   try {
+    connection = await createConnection()
+
     const sql = `
-      SELECT idUser, firstname, lastname, email, gender, birthday, telephone, role  FROM User
+      SELECT 
+        idUser, firstname, lastname, email, gender, birthday, telephone, role  
+      FROM User
       WHERE idUser = ?;
     `
+    const [rows] = await connection.execute(sql, [idUser])
 
-    const connection = await createConnection()
-    const [result] = await connection.query(sql, [idUser])
-    if (result.length === 0) {
-      return -1
+    if (rows.length === 0) {
+      throw new Error('No se pudo obtener la información del usuario')
     }
 
-    const userInfo = {
-      idUser: result[0].idUser,
-      firstname: result[0].firstname,
-      lastname: result[0].lastname,
-      gender: result[0].gender,
-      birthday: result[0].birthday,
-      telephone: result[0].telephone,
-      role: result[0].role
-    }
-
-    return userInfo
+    return rows[0]
   } catch (error) {
-    return error
+    throw new Error('No se pudo obtener la información del usuario')
+  } finally {
+    if (connection) await connection.end()
   }
 }
 

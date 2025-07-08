@@ -1,24 +1,40 @@
 import { createConnection } from '../../config/databaseConnection.js'
 
 async function registerPet (name, species, race, gender, weight, birthday, idUser) {
+  let connection
+
   try {
+    connection = await createConnection()
+
     const sql = `
-      INSERT INTO Pet (idPet, name, species, race, gender, weight, birthday, idUser) 
-      VALUES (uuid(), ?, ?, ?, ?, ?, ?, ?);`
-    const connection = await createConnection()
-    const [result] = await connection.query(sql, [name, species, race, gender, weight, birthday, idUser])
-    return result
+      INSERT INTO Pet (
+        idPet, name, species, race, gender, weight, birthday, idUser
+      ) VALUES (
+        UUID(), ?, ?, ?, ?, ?, ?, ?
+      );
+    `
+
+    const [result] = await connection.execute(sql, [
+      name, species, race, gender, weight, birthday, idUser
+    ])
+    if (result.affectedRows === 1) {
+      return true
+    }
+
+    return false
   } catch (error) {
-    if (error.code === 'ER_DUP_ENTRY') {
-      throw new Error('El correo o DNI proporcionado ya está registrado.')
+    console.error('Error al registrar mascota:', error.message)
+
+    switch (error.code) {
+      case 'ER_NO_SUCH_TABLE':
+        throw new Error('La tabla "Pet" no existe en la base de datos.')
+      case 'ER_NO_REFERENCED_ROW_2':
+        throw new Error('El usuario al que intenta asociar la mascota no existe.')
+      default:
+        throw new Error('No se pudo registrar la mascota.')
     }
-    if (error.code === 'ER_NO_SUCH_TABLE') {
-      throw new Error('La tabla no existe en la base de datos.')
-    }
-    if (error.code.includes('ER_NO_REFERENCED_ROW')) {
-      throw new Error('Mascota o veterinario no existentes.')
-    }
-    throw new Error(error)
+  } finally {
+    if (connection) await connection.end()
   }
 }
 
