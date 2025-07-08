@@ -17,7 +17,7 @@ server.use('/auth', authRouter)
 server.use('/veterinary', veterinaryRouter)
 
 server.get('/', (req, res) => {
-  return res.json({ message: 'VETERINARY' })
+  return res.json({ message: 'VETERINARY MIGUEL' })
 })
 
 server.listen(PORT, () => {
