@@ -1,0 +1,83 @@
+import { editAppointmentState } from '../../repositories/appointmentRepository/editAppointmentState.js'
+import { validateAppointmentForIdVeterinary } from '../../repositories/appointmentRepository/validateAppointmentForIdVeterinary.js'
+import { verifyAppointmentExistByIdAppointment } from '../../repositories/appointmentRepository/verifyAppointmentExistByIdAppointment.js'
+import { verifyAppointmentIsCanceled } from '../../repositories/appointmentRepository/verifyAppointmentIsCanceled.js'
+import { verifyAppointmentIsCompleted } from '../../repositories/appointmentRepository/verifyAppointmentIsCompleted.js'
+import { registerDiagnostic } from '../../repositories/DiagnosticRepository/registerDiagnostic.js'
+import { getAuthIdUser } from '../../utils/getAuthIdUser.js'
+import { diagnosticSchema } from '../../validations/diagnosticSchema.js'
+
+async function veterinaryCreateDiagnosticController (req, res) {
+  try {
+    // Extraer los datos del diagnostico del cuerpo de la solicitud
+    const { description, reason, treatment } = req.body
+    const now = new Date(Date.now())
+    const date = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, 0)}-${now.getDay().toString().padStart(2, 0)}`
+
+    // Validar datos del diagnostico usando Joi
+    await diagnosticSchema.validateAsync({ date, description, reason, treatment })
+
+    const idAppointment = req.params.idAppointment
+
+    // Validar idAppointment vacio
+    if (!idAppointment) {
+      return res.status(400).send({ message: 'Debe espescificar la cita a la pertenece el diagnóstico.' })
+    }
+
+    // Validar cita existente
+    const appointmentExist = await verifyAppointmentExistByIdAppointment(idAppointment)
+    if (!appointmentExist) {
+      return res.status(400).send({ message: 'La cita especificada no existe.' })
+    }
+
+    // Validar cita cancelada
+    const isCanceled = await verifyAppointmentIsCanceled(idAppointment)
+    if (!isCanceled) {
+      return res.status(400).send({ message: 'No puede registrar diagnóstico en una cita cancelada.' })
+    }
+
+    // Validar si la cita ya tiene diagnóstico
+    const isCompleted = await verifyAppointmentIsCompleted(idAppointment)
+    if (isCompleted) {
+      return res.status(400).send({ message: 'No puede registrar diagnóstico en una cita previamente diagnosticada.' })
+    }
+
+    // Validar que el veterinario este asignado a la cita
+    const authorization = req.header('Authorization')
+    const idVeterinary = await getAuthIdUser(authorization)
+
+    const isOwner = await validateAppointmentForIdVeterinary(idVeterinary, idAppointment)
+    if (!isOwner) {
+      return res.status(404).send({ message: 'Sin autorización.' })
+    }
+
+    // Intentar registrar el diagnóstico
+    const registerDiagnosticQueryResult = await registerDiagnostic(date, description, reason, treatment, idAppointment)
+
+    // Verificar si la actualización se realizó correctamente
+    if (!registerDiagnosticQueryResult) {
+      return res.status(400).send({ message: 'No se pudo registrar el diagnóstico.' })
+    }
+
+    // Cambiar estado de cita a C (completada)
+    const completeAppointmentQueryResult = await editAppointmentState(idAppointment, 'C')
+    if (!completeAppointmentQueryResult) {
+      return res.status(400).send({ message: 'No se pudo completar la cita.' })
+    }
+
+    // Respuesta exitosa
+    return res.send({ message: 'Diagnóstico registrado con éxito.' })
+  } catch (error) {
+    // Manejo de errores de validación o del servidor
+    if (error instanceof Error) {
+      return res.status(400).json({ message: error.message })
+    }
+    return res.status(400).json(
+      error.details?.[0]?.message
+        ? { message: error.details[0].message }
+        : { message: 'Error inesperado. ' }
+    )
+  }
+}
+
+export { veterinaryCreateDiagnosticController }

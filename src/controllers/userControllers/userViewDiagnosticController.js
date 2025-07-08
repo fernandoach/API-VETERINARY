@@ -26,8 +26,11 @@ async function userViewDiagnosticController (req, res) {
     const diagnostics = await getDiagnosticForUserAppointment(idUser, idAppointment)
 
     // Validar si existe un diagnóstico
-    if (!Array.isArray(diagnostics) || diagnostics.length === 0) {
+    if (!Array.isArray(diagnostics)) {
       return res.status(404).json({ message: 'Sin autorización.' })
+    }
+    if (diagnostics.length === 0) {
+      return res.status(404).json({ message: 'Aún no hay diagnostico para la cita.' })
     }
 
     // Retornar el primer diagnóstico encontrado
