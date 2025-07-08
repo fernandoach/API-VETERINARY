@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="RPAzpnmm1RsqbhSX1ocx" name="Page-1">
-        <mxGraphModel dx="1359" dy="357" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1359" dy="274" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -253,7 +253,7 @@
                         <mxPoint x="480" y="1030" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="94" value="/cancelDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="94" value="/deleteDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="510" y="1000" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="97" style="edgeStyle=none;html=1;" parent="1" source="98" edge="1">
@@ -269,7 +269,7 @@
                         <mxPoint x="480" y="950" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="100" value="/editDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="100" value="/editDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="510" y="920" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="101" style="edgeStyle=none;html=1;" parent="1" source="102" edge="1">
@@ -277,7 +277,7 @@
                         <mxPoint x="480" y="870" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="102" value="/viewDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="102" value="/viewDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="510" y="840" width="120" height="60" as="geometry"/>
                 </mxCell>
             </root>
