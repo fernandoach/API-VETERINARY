@@ -46,7 +46,7 @@
                 <mxCell id="4" value="/admin" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="330" y="200" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="5" value="/Veterinary" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="5" value="/Veterinary" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="500" y="200" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="44" style="edgeStyle=none;html=1;" parent="1" source="7" edge="1">
@@ -253,7 +253,7 @@
                         <mxPoint x="480" y="1030" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="94" value="/deleteDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="94" value="/deleteDiagnostic" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="510" y="1000" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="97" style="edgeStyle=none;html=1;" parent="1" source="98" edge="1">
