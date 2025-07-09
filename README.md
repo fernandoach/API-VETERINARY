@@ -3,141 +3,101 @@
 
 Este proyecto es una API REST construida con Node.js y Express que permite a los usuarios gestionar citas veterinarias. Esta primera versión del `README` documenta únicamente las rutas relacionadas al **usuario**.
 
+---
+
 ## 🔐 Autenticación
 La autenticación se realiza mediante JWT, enviado como cookie segura (`HttpOnly`). El token se genera en el login y es necesario para acceder a rutas protegidas.
 
+## 🛠️ Tecnologías
+
+- Express.js
+- JWT (Autenticación)
+- MySQL (Base de datos)
+- Joi (Validación de entradas)
+- date-fns (Manejo de fechas)
+
 ---
 
-## 📦 Endpoints de Usuario
+## 🧑 Registro de Usuario
 
-### 📌 POST `/api/user/register`
+### `POST /user`
+
 Registra un nuevo usuario.
 
-**Body:**
+**Body JSON:**
+
 ```json
 {
   "firstname": "Juan",
   "lastname": "Pérez",
   "gender": "M",
-  "birthday": "1995-05-20",
+  "birthday": "2000-01-01",
   "dni": "12345678",
   "telephone": "987654321",
   "email": "juan@example.com",
-  "password": "password123",
-  "repassword": "password123"
+  "password": "123456",
+  "repassword": "123456"
 }
 ```
 
 ---
 
-### 📌 POST `/api/user/create-appointment`
-Crea una nueva cita para una mascota.
+## 📅 Appointments
 
-🔒 Requiere autenticación por cookie.
+### `POST /user/appointments`
 
-**Body:**
+Crea una nueva cita médica. Requiere autenticación.
+
+**Body JSON:**
+
 ```json
 {
-  "date": "2025-08-15",
-  "startTime": "09:00",
+  "date": "2025-08-01",
+  "startTime": "10:00",
   "reason": "Consulta general",
-  "idVeterinary": "uuid-del-veterinario",
-  "idPet": "uuid-de-la-mascota"
+  "idVeterinary": "uuid",
+  "idPet": "uuid"
 }
 ```
 
----
+### `DELETE /user/appointments/:idAppointment`
 
-### 📌 PUT `/api/user/cancel-appointment`
-Cancela una cita futura del usuario autenticado.
+Cancela una cita. Requiere autenticación.
 
-🔒 Requiere autenticación por cookie.
+### `GET /user/appointments`
 
-**Body:**
-```json
-{
-  "idAppointment": "uuid-de-la-cita"
-}
-```
+Obtiene todas las citas del usuario autenticado.
+
+### `GET /user/appointments/week?date=2025-08-01&idVeterinary=123123123`
+
+Devuelve la agenda semanal de citas a partir de la fecha proporcionada. Requiere autenticación.
 
 ---
 
-### 📌 GET `/api/user/pets`
-Obtiene todas las mascotas del usuario autenticado.
+## 🩺 Diagnóstico
 
-🔒 Requiere autenticación por cookie.
+### `GET /user/appointments/:id/diagnostic`
 
----
-
-### 📌 GET `/api/user/appointments`
-Lista todas las citas del usuario autenticado.
-
-🔒 Requiere autenticación por cookie.
+Devuelve el diagnóstico asociado a una cita específica. Requiere autenticación.
 
 ---
 
-### 📌 GET `/api/user/diagnostic?idAppointment=uuid`
-Obtiene el diagnóstico de una cita específica.
+## 🐾 Mascotas
 
-🔒 Requiere autenticación por cookie.
+### `GET /user/pets`
 
----
-
-### 📌 GET `/api/user/veterinarians`
-Lista todos los veterinarios disponibles.
-
-🔒 Requiere autenticación por cookie.
+Devuelve las mascotas del usuario autenticado.
 
 ---
 
-### 📌 GET `/api/user/appointments/week?date=YYYY-MM-DD&idVeterinary=uuid`
-Obtiene las citas de 7 días a partir de una fecha específica para un veterinario.
+## 👨‍⚕️ Veterinarios
 
-🔒 Requiere autenticación por cookie.
+### `GET /user/veterinarians`
 
-**Ejemplo:**
-```
-/api/user/appointments/week?date=2025-10-31&idVeterinary=uuid-vet
-```
+Devuelve el listado de veterinarios disponibles.
 
 ---
 
-## 🛡️ Estado del módulo de usuarios
+## ✍️ Autor
 
-✅ Registro  
-✅ Login con cookie  
-✅ Crear, cancelar y listar citas  
-✅ Diagnóstico por cita  
-✅ Ver mascotas  
-✅ Ver veterinarios  
-✅ Ver disponibilidad semanal (con filtro por veterinario)
-
----
-
-## 🚀 Tecnologías usadas
-- Node.js + Express
-- MySQL
-- JWT
-- Joi (validaciones)
-- cookie-parser
-- date-fns
-
----
-
-## 📂 Estructura del proyecto (parcial)
-```
-/controllers
-  /userControllers
-/repositories
-  /userRepository
-  /appointmentRepository
-/middlewares
-/utils
-/validations
-```
-
----
-
-## 🧪 Autor
-Miguel Fernando Aliaga Chacón  
-fernandoach333@gmail.com
+Fernz
