@@ -35,8 +35,7 @@ async function veterinaryDeleteDiagnosticController (req, res) {
     }
 
     // Validar que el veterinario este asignado a la cita
-    const authorization = req.header('Authorization')
-    const idVeterinary = await getAuthIdUser(authorization)
+    const idVeterinary = await getAuthIdUser(req)
 
     const isOwner = await validateAppointmentForIdVeterinary(idVeterinary, idAppointment)
     if (!isOwner) {

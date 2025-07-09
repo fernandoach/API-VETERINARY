@@ -6,9 +6,8 @@ import { verifyAppointmentDate } from '../../repositories/appointmentRepository/
 
 async function veterinaryCreateAppointmentController (req, res) {
   try {
-    // Obtener el ID del veterinario autenticado desde el JWT
-    const authorization = req.header('Authorization')
-    const idVeterinary = await getAuthIdUser(authorization)
+    // Obtener el ID del veterinario autenticado desde el request
+    const idVeterinary = await getAuthIdUser(req)
 
     // Extraer datos del cuerpo de la solicitud
     const { date, startTime, reason, idPet } = req.body

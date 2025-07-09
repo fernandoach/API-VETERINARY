@@ -9,8 +9,7 @@ async function userCreateAppointmentController (req, res) {
   try {
     const { date, startTime, reason, idVeterinary, idPet } = req.body
 
-    const authorization = req.header('Authorization')
-    const idUser = await getAuthIdUser(authorization)
+    const idUser = await getAuthIdUser(req)
 
     await appointmentSchema.validateAsync({
       date,
@@ -58,9 +57,7 @@ async function userCreateAppointmentController (req, res) {
       .toString()
       .padStart(2, '0')}`
 
-    return res.status(200).json({
-      message: `Cita registrada para: ${date} de ${startTime} a ${formattedEnd}`
-    })
+    return res.status(201).json({ message: `Cita registrada para: ${date} de ${startTime} a ${formattedEnd}` })
   } catch (error) {
     console.error('Error al crear cita:', error)
 

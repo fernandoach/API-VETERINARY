@@ -1,13 +1,13 @@
 import { verifyJWT } from './verifyJWT.js'
 
-async function getAuthIdUser (authHeader = '') {
+function getAuthIdUser (req) {
   try {
-    const authToken = authHeader.split(' ')[1]
-    if (!authToken) {
+    const token = req.cookies?.accessToken
+    if (!token) {
       throw new Error('Sin autorización.')
     }
 
-    const verify = await verifyJWT(authToken)
+    const verify = verifyJWT(token)
     if (!verify || !verify.data) {
       throw new Error('Token inválido.')
     }

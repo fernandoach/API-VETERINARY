@@ -7,8 +7,7 @@ import { validateAppointmentForIdVeterinary } from '../../repositories/appointme
 async function veterinaryEditAppointmentController (req, res) {
   try {
     // Obtener token del header y extraer el id del veterinario autenticado
-    const authorization = req.header('Authorization')
-    const idVeterinary = await getAuthIdUser(authorization)
+    const idVeterinary = await getAuthIdUser(req)
 
     // Extraer los datos enviados por el cliente
     const { idAppointment, date, startTime, idPet, reason, state } = req.body

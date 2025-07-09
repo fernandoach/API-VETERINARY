@@ -5,10 +5,9 @@ import { getAppointmentDateTimeForUserAppointment } from '../../repositories/app
 
 async function userCancelAppointmentController (req, res) {
   try {
-    const authorization = req.header('Authorization')
-    const idUser = await getAuthIdUser(authorization)
+    const idUser = await getAuthIdUser(req)
 
-    const { idAppointment } = req.body
+    const idAppointment = req.params.idAppointment
 
     // Verificar que la cita pertenezca al usuario autenticado
     const appointmentDateTime = await getAppointmentDateTimeForUserAppointment(idUser, idAppointment)

@@ -3,11 +3,8 @@ import { getAuthIdUser } from '../../utils/getAuthIdUser.js'
 
 async function userViewPetsController (req, res) {
   try {
-    // Obtener el token de autorización desde el encabezado
-    const authorization = req.header('Authorization')
-
-    // Obtener el ID del usuario a partir del token JWT
-    const idUser = await getAuthIdUser(authorization)
+    // Obtener el ID del usuario a partir del request
+    const idUser = await getAuthIdUser(req)
 
     // Obtener todas las mascotas registradas del usuario
     const pets = await getPetsByIdUser(idUser)

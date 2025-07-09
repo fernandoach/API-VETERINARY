@@ -3,8 +3,7 @@ import { getAuthIdUser } from '../../utils/getAuthIdUser.js'
 
 async function getAuthUserInfoController (req, res) {
   try {
-    const authorization = req.header('Authorization')
-    const idUser = await getAuthIdUser(authorization)
+    const idUser = await getAuthIdUser(req)
 
     // TODO: Implementar caché con Redis para evitar múltiples consultas a la base de datos
 

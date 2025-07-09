@@ -3,11 +3,8 @@ import { getAuthIdUser } from '../../utils/getAuthIdUser.js'
 
 async function userViewAppointmentsController (req, res) {
   try {
-    // Obtener token de autorización del encabezado
-    const authorization = req.header('Authorization')
-
-    // Obtener el ID del usuario a partir del token
-    const idUser = await getAuthIdUser(authorization)
+    // Obtener el ID del usuario a partir del request
+    const idUser = await getAuthIdUser(req)
 
     // Obtener las citas correspondientes al usuario
     const appointments = await getAppointmentsForIdUser(idUser)

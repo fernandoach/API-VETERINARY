@@ -5,8 +5,7 @@ import { passwordSchema } from '../../validations/passwordsSchema.js'
 
 async function changePasswordController (req, res) {
   try {
-    const authorization = req.header('Authorization')
-    const idUser = await getAuthIdUser(authorization)
+    const idUser = await getAuthIdUser(req)
 
     const { password, repassword } = req.body
 

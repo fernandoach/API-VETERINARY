@@ -10,13 +10,13 @@ async function verifyAppointmentDate (date, idVeterinary, endTime, startTime) {
       SELECT COUNT(idAppointment) AS count FROM Appointment
       WHERE date = ?
         AND idVeterinary = ?
-        AND (startTime < ? AND endTime > ?);
+        AND (startTime < ? AND endTime > ?) AND state <> 'C';
     `
 
     const [rows] = await connection.execute(sql, [date, idVeterinary, endTime, startTime])
-    const count = rows[0].count
 
-    return count === 0
+    const isAvailable = rows[0].count === 0
+    return isAvailable
   } catch (error) {
     throw new Error('No se pudo verificar la disponibilidad de la cita.')
   } finally {

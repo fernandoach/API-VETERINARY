@@ -6,8 +6,7 @@ import { validateAppointmentForIdVeterinary } from '../../repositories/appointme
 
 async function veterinaryCancelAppointmentController (req, res) {
   try {
-    const authorization = req.header('Authorization')
-    const idVeterinary = await getAuthIdUser(authorization)
+    const idVeterinary = await getAuthIdUser(req)
 
     const { idAppointment } = req.body
     if (!idAppointment) {
