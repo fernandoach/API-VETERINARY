@@ -9,7 +9,8 @@ async function getVeterinarians () {
     const sql = `
       SELECT firstname, lastname, gender, birthday, email
       FROM User
-      WHERE role = 'V';
+      WHERE role = 'V'
+      ORDER BY firstname;
     `
 
     const [rows] = await connection.execute(sql)

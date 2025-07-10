@@ -21,7 +21,7 @@ userRouter.get('/appointments', authUserMiddleware, userViewAppointmentsControll
 userRouter.get('/appointments/week', authUserMiddleware, userViewWeekScheduleController) // Ver agenda semanal
 
 // Diagnostics
-userRouter.get('/appointments/:id/diagnostic', authUserMiddleware, userViewDiagnosticController) // Ver diagnóstico de una cita
+userRouter.get('/appointments/:idAppointment/diagnostic', authUserMiddleware, userViewDiagnosticController) // Ver diagnóstico de una cita
 
 // Pets
 userRouter.get('/pets', authUserMiddleware, userViewPetsController) // Ver mascotas

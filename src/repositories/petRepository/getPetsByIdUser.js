@@ -9,7 +9,8 @@ async function getPetsByIdUser (idUser) {
     const sql = `
       SELECT idPet, name, species, race, gender, weight, birthday, idUser
       FROM Pet
-      WHERE idUser = ?;
+      WHERE idUser = ?
+      ORDER BY name ASC;
     `
 
     const [rows] = await connection.execute(sql, [idUser])

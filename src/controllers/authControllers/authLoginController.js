@@ -22,13 +22,16 @@ async function authLoginController (req, res) {
 
     const accessToken = signJWT(idUser)
 
+    const isProduction = process.env.ENVIRONMENT === 'production'
+
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      secure: true,
+      secure: isProduction,
       sameSite: 'Strict',
       maxAge: 2 * 60 * 60 * 1000
     })
-    console.log(res)
+    console.log(`accessToken=${accessToken}`)
+
     const role = await getUserRoleForId(idUser)
 
     return res.status(200).json({ role })

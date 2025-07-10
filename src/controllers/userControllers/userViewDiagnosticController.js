@@ -1,13 +1,16 @@
 import { doesAppointmentBelongToIdUser } from '../../repositories/appointmentRepository/doesAppointmentBelongToIdUser.js'
 import { getDiagnosticForUserAppointment } from '../../repositories/DiagnosticRepository/getDiagnosticForUserAppointment.js'
 import { getAuthIdUser } from '../../utils/getAuthIdUser.js'
+import { uuidSchema } from '../../validations/uuidSchema.js'
 
 async function userViewDiagnosticController (req, res) {
   try {
     // Obtener ID del usuario a partir del request
     const idUser = await getAuthIdUser(req)
 
-    const { idAppointment } = req.body
+    const idAppointment = req.params.idAppointment
+
+    await uuidSchema.validateAsync({ uuid: idAppointment })
 
     // Validar que se haya enviado el ID de la cita
     if (!idAppointment) {

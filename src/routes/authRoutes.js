@@ -8,8 +8,8 @@ import { authLogoutController } from '../controllers/authControllers/authLogoutC
 const authRouter = express.Router()
 
 authRouter.post('/login', authLoginController)
-authRouter.get('/getAuthUserInfo', authUserMiddleware, getAuthUserInfoController)
-authRouter.put('/changePassword', authUserMiddleware, changePasswordController)
-authRouter.put('/logout', authUserMiddleware, authLogoutController)
+authRouter.get('/me', authUserMiddleware, getAuthUserInfoController)
+authRouter.put('/password', authUserMiddleware, changePasswordController)
+authRouter.delete('/logout', authUserMiddleware, authLogoutController)
 
 export { authRouter }

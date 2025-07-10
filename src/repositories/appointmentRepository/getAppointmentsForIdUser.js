@@ -19,12 +19,14 @@ async function getAppointmentsForIdUser (idUser) {
       FROM Appointment
       INNER JOIN Pet ON Pet.idPet = Appointment.idPet
       INNER JOIN User ON User.idUser = Pet.idUser
-      WHERE User.idUser = ? AND Appointment.state <> 'X';
+      WHERE User.idUser = ? AND Appointment.state <> 'X'
+      ORDER BY Appointment.date ASC, Appointment.startTime ASC;
     `
 
     const [rows] = await connection.execute(sql, [idUser])
     return rows
   } catch (error) {
+    console.log(error)
     throw new Error('No se pudieron obtener las citas del usuario.')
   } finally {
     if (connection) await connection.end()

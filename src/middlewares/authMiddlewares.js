@@ -6,12 +6,11 @@ async function authUserMiddleware (req, res, next) {
     const authToken = req.cookies.accessToken
     if (!authToken) return res.status(401).json({ message: 'Sin autorización.' })
 
-    const verify = await verifyJWT(authToken)
-    if (!verify) {
+    const verify = verifyJWT(authToken)
+    if (!verify.data) {
       return res.status(401).json({ message: 'Sin autorización.' })
     }
-
-    const idUser = await verify.data
+    const idUser = verify.data
     const role = await getUserRoleForId(idUser)
     if (!(['U', 'A', 'V'].includes(role))) {
       return res.status(401).json({ message: 'Sin autorización.' })
@@ -28,14 +27,13 @@ async function authUserMiddleware (req, res, next) {
 
 async function authVeterinaryMiddleware (req, res, next) {
   try {
-    const authToken = req.cookies?.accessToken
+    const authToken = req.cookies.accessToken
     if (!authToken) return res.status(401).json({ message: 'Sin autorización.' })
 
-    const verify = await verifyJWT(authToken)
-    if (!verify) {
+    const verify = verifyJWT(authToken)
+    if (!verify.data) {
       return res.status(401).json({ message: 'Sin autorización.' })
     }
-
     const idUser = verify.data
     const role = await getUserRoleForId(idUser)
 
@@ -54,16 +52,16 @@ async function authVeterinaryMiddleware (req, res, next) {
 
 async function authAdminMiddleware (req, res, next) {
   try {
-    const authToken = req.cookies?.accessToken
+    const authToken = req.cookies.accessToken
     if (!authToken) return res.status(401).json({ message: 'Sin autorización.' })
 
-    const verify = await verifyJWT(authToken)
-    if (!verify) {
+    const verify = verifyJWT(authToken)
+    if (!verify.data) {
       return res.status(401).json({ message: 'Sin autorización.' })
     }
-
     const idUser = verify.data
     const role = await getUserRoleForId(idUser)
+
     if (role !== 'A') {
       return res.status(401).json({ message: 'Sin autorización.' })
     }
