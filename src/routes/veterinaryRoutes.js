@@ -10,18 +10,22 @@ import { veterinaryCreateDiagnosticController } from '../controllers/VeterinaryC
 import { veterinaryEditDiagnosticController } from '../controllers/VeterinaryControllers/veterinaryEditDiagnosticController.js'
 import { veterinaryViewDiagnosticController } from '../repositories/DiagnosticRepository/veterinaryViewDiagnosticController.js'
 import { veterinaryDeleteDiagnosticController } from '../controllers/VeterinaryControllers/veterinaryDeleteDiagnosticController.js'
+import { veterinaryViewAppointmentsController } from '../controllers/VeterinaryControllers/veterinaryViewAppointmentsController.js'
 
 const veterinaryRouter = Router()
 
-veterinaryRouter.post('/createAppointment', authVeterinaryMiddleware, veterinaryCreateAppointmentController)
-veterinaryRouter.put('/cancelAppointment', authVeterinaryMiddleware, veterinaryCancelAppointmentController)
-veterinaryRouter.post('/createPet', authVeterinaryMiddleware, veterinaryCreatePetController)
-veterinaryRouter.get('/viewPets', authVeterinaryMiddleware, veterinaryViewPetsController)
-veterinaryRouter.put('/editAppointment', authVeterinaryMiddleware, veterinaryEditAppointmentController)
-veterinaryRouter.put('/editPet', authVeterinaryMiddleware, veterinaryEditPetController)
-veterinaryRouter.post('/createDiagnostic/:idAppointment', authVeterinaryMiddleware, veterinaryCreateDiagnosticController)
-veterinaryRouter.put('/editDiagnostic/:idAppointment', authVeterinaryMiddleware, veterinaryEditDiagnosticController)
-veterinaryRouter.get('/viewDiagnostic/:idAppointment', authVeterinaryMiddleware, veterinaryViewDiagnosticController)
-veterinaryRouter.delete('/deleteDiagnostic/:idAppointment', authVeterinaryMiddleware, veterinaryDeleteDiagnosticController)
+veterinaryRouter.post('/appointments', authVeterinaryMiddleware, veterinaryCreateAppointmentController)
+veterinaryRouter.delete('/appointments/:idAppointment', authVeterinaryMiddleware, veterinaryCancelAppointmentController)
+veterinaryRouter.put('/appointments/:idAppointment', authVeterinaryMiddleware, veterinaryEditAppointmentController)
+veterinaryRouter.get('/appointments', authVeterinaryMiddleware, veterinaryViewAppointmentsController)
+
+// TODO: FIX IT
+veterinaryRouter.post('/pets', authVeterinaryMiddleware, veterinaryCreatePetController)
+veterinaryRouter.get('/pets', authVeterinaryMiddleware, veterinaryViewPetsController)
+veterinaryRouter.put('/pets', authVeterinaryMiddleware, veterinaryEditPetController)
+veterinaryRouter.post('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryCreateDiagnosticController)
+veterinaryRouter.put('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryEditDiagnosticController)
+veterinaryRouter.get('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryViewDiagnosticController)
+veterinaryRouter.delete('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryDeleteDiagnosticController)
 
 export { veterinaryRouter }

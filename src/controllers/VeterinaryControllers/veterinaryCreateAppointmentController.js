@@ -27,27 +27,26 @@ async function veterinaryCreateAppointmentController (req, res) {
     }
 
     // Calcular la hora de finalización sumando 60 minutos
-    const end = addMinutes(start, 60)
+    const endTime = addMinutes(start, 60)
 
     // Verificar que el horario no esté ocupado
-    const available = await verifyAppointmentDate(date, idVeterinary, end, startTime)
+    const available = await verifyAppointmentDate(date, idVeterinary, endTime, startTime)
 
     if (!available) {
       return res.status(400).json({ message: 'Horario con el veterinario seleccionado no disponible.' })
     }
 
     // Registrar la cita si el horario está disponible
-    await registerAppointment(date, startTime, end, reason, idVeterinary, idPet)
+    await registerAppointment(date, startTime, endTime, reason, idVeterinary, idPet)
 
     // Formatear la hora final
-    const formattedEndTime = `${end.getHours().toString().padStart(2, '0')}:${end.getMinutes().toString().padStart(2, '0')}`
+    const formattedEndTime = `${endTime.getHours().toString().padStart(2, '0')}:${endTime.getMinutes().toString().padStart(2, '0')}`
 
     // Enviar respuesta con confirmación
     return res.status(200).json({
       message: `Cita registrada para el ${date} de ${startTime} a ${formattedEndTime}`
     })
   } catch (error) {
-    // Manejo de errores de Joi u otros errores
     const message =
       error?.details?.[0]?.message || (error instanceof Error ? error.message : 'Error inesperado')
     return res.status(400).json({ message })

@@ -696,6 +696,373 @@ Nada
 
 </details>
 
+## Veterinario
+
+<details>
+
+<summary><strong>POST /veterinary/appointments</strong> - Registrar una nueva cita</summary>
+
+#### Parameters
+
+Nada
+
+#### Request body
+
+```json
+{
+  "date": "2025-07-10",
+  "startTime": "10:00",
+  "reason": "Vacunación anual",
+  "idPet": "a1b2c3d4-1234-5678-9012-abcdef123456"
+}
+```
+
+#### Validaciones
+
+- date:
+  - Obligatorio
+  - Formato yyyy-mm-dd
+  - No puede ser fecha pasada
+- startTime:
+  - Obligatorio
+  - Formato HH:mm
+- reason:
+  - Obligatorio
+  - 5 a 200 caracteres
+  - Solo caracteres alfanuméricos y algunos signos de puntuación
+- idPet:
+  - Obligatorio
+  - UUID válido
+- Solo se permite crear citas con al menos 2 horas de anticipación
+- Se verifica que no exista otra cita en la misma franja horaria con el mismo veterinario
+- Solo usuarios con rol veterinario ('V') pueden acceder a esta ruta.
+
+#### Response
+
+✅ **200 OK**
+
+```json
+{
+  "message": "Cita registrada para el 2025-07-10 de 10:00 a 11:00"
+}
+```
+
+🛑 **400 Bad Request – fecha inválida o pasada**
+
+```json
+{
+  "message": "No puede reservar en una fecha pasada o con menos de 2 horas de anticipación."
+}
+```
+
+🛑 **400 Bad Request – horario ocupado**
+
+```json
+{
+  "message": "Horario con el veterinario seleccionado no disponible."
+}
+```
+
+🛑 **400 Bad Request – error de validación**
+
+```json
+{
+  "message": "La fecha debe tener el formato yyyy-mm-dd"
+}
+```
+
+#### Notas
+
+- El veterinario debe estar autenticado. Se requiere la cookie `accessToken`.
+- La cita se agenda por una hora desde la hora de inicio.
+- El ID del veterinario se infiere automáticamente desde el token JWT.
+- El campo state siempre se registra como 'P' (pendiente).
+- El sistema previene que dos citas se superpongan en el mismo horario para el mismo veterinario.
+
+</details>
+
+<details>
+
+<summary><strong>DELETE /veterinary/appointments/:idAppointment</strong> - Cancelar cita</summary>
+
+#### Parameters
+
+- idAppointment: ID de la cita a cancelar (uuid)
+
+#### Request body
+
+Nada
+
+#### Validaciones
+
+- idAppointment:
+  - Obligatorio
+  - Debe tener formato UUID
+- La cita debe pertenecer al veterinario autenticado
+- No se puede cancelar:
+  - Si la cita es el mismo día
+  - Si la cita ya ocurrió
+  - Si la cita ya fue cancelada o completada
+- Solo usuarios con rol veterinario ('V') pueden acceder a esta ruta.
+
+
+#### Response
+
+✅ **200 OK**
+
+```json
+{
+  "message": "Cita cancelada con éxito."
+}
+```
+
+🛑 **400 Bad Request – mismo día o cita pasada**
+
+```json
+{
+  "message": "No puede cancelar el mismo día de la cita."
+}
+```
+
+🛑 **400 Bad Request – cita ya cancelada o completada**
+
+```json
+{
+  "message": "La cita ya está cancelada o fue completada."
+}
+```
+
+🛑 **400 Bad Request – id no proporcionado**
+
+```json
+{
+  "message": "ID de cita no proporcionado."
+}
+```
+
+🛑 **403 Forbidden – cita no pertenece al veterinario**
+
+```json
+{
+  "message": "No tienes permiso para cancelar esta cita."
+}
+```
+
+🛑 **404 Not Found – cita no existe**
+
+```json
+{
+  "message": "No se encontró la cita."
+}
+```
+
+#### Notas
+
+- El veterinario debe estar autenticado. Se requiere la cookie `accessToken`.
+- Esta operación no elimina la cita, solo cambia su estado a cancelado.
+- Las citas solo pueden ser canceladas si:
+  - Pertenecen al veterinario autenticado.
+  - No son del mismo día ni pasadas.
+- No es posible cancelar citas ya completadas.
+
+</details>
+
+<details>
+
+<summary><strong>PUT /veterinary/appointments/:idAppointment</strong> – Editar cita</summary>
+
+#### Parameters
+
+- idAppointment: ID de la cita a cancelar (uuid)
+
+#### Request body
+
+```json
+{
+  "date": "2025-07-15",
+  "startTime": "15:00",
+  "reason": "Control general anual",
+  "state": "P",
+  "idPet": "abcd1234-ab12-cd34-ef56-abcdef123456"
+}
+```
+
+#### Validaciones
+
+- idAppointment:
+  - Obligatorio en la URL
+  - Debe tener formato UUID válido
+- date:
+  - Requerido
+  - Formato yyyy-mm-dd
+  - No puede ser una fecha pasada
+- startTime:
+  - Requerido
+  - Formato HH:MM en 24h
+- reason:
+  - Requerido
+  - Entre 5 y 200 caracteres
+  - Solo caracteres válidos
+- state:
+  - Opcional
+  - Uno de: "P" (pendiente), "C" (completado), "X" (cancelado)
+- idPet:
+  - Requerido
+  - Formato UUID válido
+- La nueva fecha y hora no pueden ser iguales a la original.
+- El nuevo horario no debe estar ocupado.
+- Solo usuarios con rol veterinario ('V') pueden acceder a esta ruta.
+
+#### Response
+
+✅ **200 OK**
+
+```json
+{
+  "message": "Cita editada correctamente."
+}
+```
+
+🛑 **400 Bad Request – ID no proporcionado**
+
+```json
+{
+  "message": "ID de cita no proporcionado."
+}
+```
+
+🛑 **400 Bad Request – sin autorización**
+
+```json
+{
+  "message": "Sin autorización."
+}
+```
+
+🛑 **400 Bad Request – cita no modificada**
+
+```json
+{
+  "message": "No se pudo modificar la cita."
+}
+```
+
+🛑 **400 Bad Request – misma hora**
+
+```json
+{
+  "message": "La fecha y hora deben ser diferentes al valor original."
+}
+```
+
+🛑 **400 Bad Request – horario no disponible**
+
+```json
+{
+  "message": "Horario con el veterinario seleccionado no disponible."
+}
+```
+
+🛑 **400 Bad Request – error de validación**
+
+```json
+{
+  "message": "La fecha debe tener el formato yyyy-mm-dd"
+}
+```
+
+#### Notas
+
+- Solo los veterinarios autenticados pueden modificar citas.
+- Se requiere la cookie `accessToken` con un token válido.
+- Pueden editarse citas que ocurran el mismo día o en fechas futuras, pero no aquellas de días anteriores.
+- La edición solo se ejecuta si todos los datos son válidos y no hay conflicto de horario.
+
+</details>
+
+<details>
+
+<summary><strong>GET /veterinary/appointments</strong> - Ver citas agendadas del veterinario por mes</summary>
+
+#### Parameters
+
+- month (requerido): número de mes (1–12)
+- year (requerido): número de año (desde 2000 hasta el actual +10)
+
+#### Request body
+
+Nada
+
+### Validaciones
+
+- El parámetro month:
+  - Es obligatorio
+  - Debe ser un número entero
+  - Debe estar entre 1 y 12
+  - Si no cumple, retorna mensaje como: "El mes debe ser un número."
+- El parámetro year:
+  - Es obligatorio
+  - Debe ser un número entero
+  - No puede ser menor a 2000
+  - No puede ser mayor a AÑO_ACTUAL + 10
+  - Si no cumple, retorna mensaje como: "El año no puede ser menor a 2000."
+- Solo usuarios con rol veterinario ('V') pueden acceder a esta ruta.
+- Se requiere autenticación mediante cookie `accessToken`.
+
+#### Response
+
+✅ **200 OK**
+
+```json
+{
+  "appointments": [
+    {
+      "idAppointment": "abcd1234-ab12-cd34-ef56-abcdef123456",
+      "date": "2025-07-14",
+      "startTime": "14:00",
+      "endTime": "15:00",
+      "reason": "Vacunación anual",
+      "name": "Luna",
+      "species": "Perro",
+      "race": "Labrador",
+      "state": "P"
+    },
+    // ...
+  ]
+}
+```
+✅ **200 OK (sin citas)**
+
+```json
+{
+  "appointments": []
+}
+```
+
+🛑 **400 Bad Request – Parámetro inválido**
+
+```json
+{
+  "message": "El mes debe ser un número."
+}
+```
+🛑 **403 Forbidden**
+
+```json
+{
+  "message": "Sin autorización."
+}
+```
+
+#### Notas
+
+- Solo veterinarios autenticados pueden acceder.
+- Se requiere la cookie `accessToken` con un token válido.
+- Devuelve las citas programadas que no están canceladas (state <> 'X') para el mes y año especificado.
+- El resultado está ordenado por fecha y hora de inicio ascendente.
+
+</details>
+
 ---
 
 ## ✍️ Autor

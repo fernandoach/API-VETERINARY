@@ -12,7 +12,6 @@ async function veterinaryViewPetsController (req, res) {
 
     const myPets = await getPetsByIdUser(idUser)
 
-    // TODO: considerar mover este mensaje como 200 OK con lista vacía si no es considerado error
     if (myPets.length === 0) return res.status(200).send({ pets: [] })
 
     return res.send({ pets: myPets })
