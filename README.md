@@ -3,22 +3,9 @@
 
 Este proyecto es una API REST construida con Node.js y Express que permite a los usuarios gestionar citas veterinarias.
 
----
+## ENDPOINTS
 
-## 🔐 Autenticación
-La autenticación se realiza mediante JWT, enviado como cookie segura (`HttpOnly`). El token se genera en el login y es necesario para acceder a rutas protegidas.
-
-## 🛠️ Tecnologías
-
-- Express.js
-- JWT (Autenticación)
-- MySQL (Base de datos)
-- Joi (Validación de entradas)
-- date-fns (Manejo de fechas)
-
----
-
-## Auth
+### Auth
 
 <details>
 
@@ -230,7 +217,7 @@ Nada
 
 </details>
 
-## User
+### Usuario
 
 <details>
 
@@ -696,7 +683,7 @@ Nada
 
 </details>
 
-## Veterinario
+### Veterinario
 
 <details>
 
