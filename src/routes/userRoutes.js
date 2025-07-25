@@ -11,22 +11,17 @@ import { userViewWeekScheduleController } from '../controllers/userControllers/u
 
 const userRouter = Router()
 
-// Registro de usuario
-userRouter.post('/', userRegisterController) // POST /user
+userRouter.post('/', userRegisterController)
 
-// Appointments
-userRouter.post('/appointments', authUserMiddleware, userCreateAppointmentController) // Crear cita
-userRouter.delete('/appointments/:idAppointment', authUserMiddleware, userCancelAppointmentController) // Cancelar cita
-userRouter.get('/appointments', authUserMiddleware, userViewAppointmentsController) // Ver todas las citas
-userRouter.get('/appointments/week', authUserMiddleware, userViewWeekScheduleController) // Ver agenda semanal
+userRouter.post('/appointments', authUserMiddleware, userCreateAppointmentController)
+userRouter.delete('/appointments/:idAppointment', authUserMiddleware, userCancelAppointmentController)
+userRouter.get('/appointments', authUserMiddleware, userViewAppointmentsController)
+userRouter.get('/appointments/week', authUserMiddleware, userViewWeekScheduleController)
 
-// Diagnostics
-userRouter.get('/appointments/:idAppointment/diagnostic', authUserMiddleware, userViewDiagnosticController) // Ver diagnóstico de una cita
+userRouter.get('/appointments/:idAppointment/diagnostic', authUserMiddleware, userViewDiagnosticController)
 
-// Pets
-userRouter.get('/pets', authUserMiddleware, userViewPetsController) // Ver mascotas
+userRouter.get('/pets', authUserMiddleware, userViewPetsController)
 
-// Veterinarians
-userRouter.get('/veterinarians', authUserMiddleware, userViewVeterinariansController) // Ver veterinarios
+userRouter.get('/veterinarians', authUserMiddleware, userViewVeterinariansController)
 
 export { userRouter }

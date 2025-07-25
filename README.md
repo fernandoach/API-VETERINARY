@@ -74,7 +74,7 @@ En la respuesta se incluye la cookie `accessToken` con las siguientes caracterí
 
 <details>
 
-<summary><strong>POST /auth/me</strong> - Obtener información del usuario autenticado</summary>
+<summary><strong>GET /auth/me</strong> - Obtener información del usuario autenticado</summary>
 
 #### Parameters
 
@@ -218,6 +218,98 @@ Nada
 </details>
 
 ### Usuario
+
+<details>
+
+<summary><strong>POST /user/ </strong> - Usuario - Registrarse</summary>
+
+#### Parameters
+
+Nada
+
+#### Request body
+
+```json
+{
+  "firstname": "Miguel",
+  "lastname": "Delarge",
+  "gender": "M",
+  "birthday": "1998-11-10",
+  "dni": "12345671",
+  "telephone": "982444333",
+  "email": "fernando@gmail.com",
+  "password": "AAAA1111",
+  "repassword": "AAAA1111"
+}
+```
+
+#### Validaciones
+
+- firstname y lastname:
+  - Solo letras (incluye tildes y ñ), mínimo 3, máximo 50 caracteres.
+- gender:
+  - Valores válidos: M, F, O.
+- birthday:
+  - Formato: YYYY-MM-DD, debe ser una fecha válida.
+- dni:
+  - Exactamente 8 dígitos numéricos.
+- telephone:
+  - Debe empezar con 9 y tener exactamente 9 dígitos.
+- email:
+  - Formato válido de correo y dominio permitido (gmail.com, hotmail.com, yahoo.com).
+- password:
+  - Entre 8 y 32 caracteres, con al menos 1 letra mayúscula y 2 números.
+- repassword:
+  - Debe coincidir exactamente con password.
+
+#### Response
+
+✅ **200 OK**
+
+```json
+{
+  "message": "Registrado con éxito."
+}
+```
+
+🛑 **400 Datos inválidos**
+
+```json
+{
+  "message": "El dni debe contener minimo 8 caracteres"
+}
+```
+
+🛑 **400 Error de validación por patrón o formato**
+
+```json
+{
+  "message": "El género solo puede ser M o F u O"
+}
+```
+
+🛑 **400 Contraseñas no coinciden**
+
+```json
+{
+  "message": "Las contraseñas no coiciden"
+}
+```
+
+🛑 **400 Error inesperado**
+```json
+{
+  "message": "Error inesperado"
+}
+```
+
+
+#### Notas
+
+- El correo no debe estar registrado previamente.
+- El DNI no debe estar registrado previamente.
+
+</details>
 
 <details>
 
@@ -1047,6 +1139,252 @@ Nada
 - Se requiere la cookie `accessToken` con un token válido.
 - Devuelve las citas programadas que no están canceladas (state <> 'X') para el mes y año especificado.
 - El resultado está ordenado por fecha y hora de inicio ascendente.
+
+</details>
+
+<details>
+
+<summary><strong>POST /veterinary/pets</strong> - Registrar mascota nueva por el dni de dueño</summary>
+
+#### Parameters
+
+Nada
+
+#### Request body
+
+```json
+{
+  "name": "Firulais",
+  "species": "Perro",
+  "race": "Labrador",
+  "gender": "M",
+  "weight": "25.4",
+  "birthday": "2018-06-12",
+  "dni": "12345678"
+}
+```
+
+### Validaciones
+
+- name, species, race:
+  - Cadenas de texto, solo letras, mínimo 3 caracteres, máximo 100.
+- gender:
+  - Solo se aceptan los valores 'M' o 'F'.
+- weight:
+  - Número positivo mayor a 0.
+- birthday:
+  - Formato válido YYYY-MM-DD.
+- dni:
+  - Debe tener exactamente 8 dígitos numéricos.
+- birthday no puede ser una fecha futura.
+
+#### Response
+
+✅ **200 OK**
+
+```json
+{
+  "message": "Registrado con éxito"
+}
+```
+
+
+🛑 **400 Bad Request – Parámetro inválido**
+
+```json
+{
+  "message": "El nombre solo puede contener letras"
+}
+```
+
+🛑 **400 Bad Request - Fecha de nacimiento futura**
+
+```json
+{
+  "message": "La fecha de nacimiento no puede ser una fecha posterior a hoy"
+}
+```
+
+🛑 **401 - Sin autorización**
+
+```json
+{
+  "message": "Sin autorización."
+}
+```
+
+#### Notas
+
+- El dni debe corresponder a un usuario previamente registrado en el sistema. Si no se encuentra, no se permitirá registrar la mascota.
+
+</details>
+
+<details>
+
+<summary><strong>GET /veterinary/pets/f4854c31-632c-11f0-9bee-70cf49ba742f</strong> - Obtener mascotas por idUser del dueño</summary>
+
+#### Parameters
+
+- idUser: Id del dueño (uuid).
+
+#### Request body
+
+Nada
+
+### Validaciones
+
+- idUSer: Se verifica que el usuario exista. 
+
+#### Response
+
+✅ **200 OK**
+
+```json
+{
+  "pets": [
+    {
+      "idPet": 1,
+      "name": "Firulais",
+      "species": "Perro",
+      "race": "Labrador",
+      "gender": "M",
+      "weight": "25.4",
+      "birthday": "2018-06-12",
+      "idUser": 17
+    },
+    ...
+  ]
+}
+```
+
+✅ **200 OK (sin citas)**
+
+```json
+{
+  "pets": []
+}
+```
+
+🛑 **400 Bad Request – idUsuario no existe**
+
+```json
+{
+  "message": "El usuario no existe."
+}
+```
+
+🛑 **400 Bad Request - Error inesperado**
+
+```json
+{
+  "message": "Error inesperado."
+}
+```
+
+🛑 **401 - Sin autorización**
+
+```json
+{
+  "message": "Sin autorización."
+}
+```
+
+#### Notas
+
+- El campo idUser debe ser un valor válido existente en la base de datos; no se permite el acceso a mascotas de usuarios no registrados.
+
+</details>
+
+// TODO: 
+
+<details>
+
+<summary><strong>PUT /veterinary/pets/f4854c31-632c-11f0-9bee-70cf49ba742f</strong> - Editar mascotas por su id</summary>
+
+#### Parameters
+
+- idPet: Id de la mascota (uuid).
+
+#### Request body
+
+```json
+{
+  "name": "Max",
+  "species": "Perro",
+  "race": "Golden",
+  "gender": "M",
+  "weight": 32.5,
+  "birthday": "2017-05-10",
+  "dni": "73456789"
+}
+```
+
+### Validaciones
+
+- idPet: Se verifica que la mascota exista. 
+- idUser: Se verifica que el usuario exista. 
+- name, species, race:
+  - Cadenas de texto, solo letras, mínimo 3 caracteres, máximo 100.
+- gender:
+  - Solo se aceptan los valores 'M' o 'F'.
+- weight:
+  - Número positivo mayor a 0.
+- birthday:
+  - Formato válido YYYY-MM-DD.
+- dni:
+  - Debe tener exactamente 8 dígitos numéricos.
+- birthday no puede ser una fecha futura.
+
+#### Response
+
+✅ **200 OK**
+
+```json
+{
+  "message": "Registrado con éxito"
+}
+```
+
+
+🛑 **400 Bad Request – Parámetro inválido**
+
+```json
+{
+  "message": "El nombre solo puede contener letras"
+}
+```
+
+🛑 **400 Bad Request - Fecha de nacimiento futura**
+
+```json
+{
+  "message": "La fecha de nacimiento no puede ser una fecha posterior a hoy"
+}
+```
+
+🛑 **401 - Sin autorización**
+
+```json
+{
+  "message": "Sin autorización."
+}
+```
+
+🛑 **400 - Usuario/mascota no encontrada**
+
+```json
+{
+  "message": "El usuario no existe."
+}
+```
+
+
+
+#### Notas
+
+- El campo idUser debe ser un valor válido existente en la base de datos; no se permite el acceso a mascotas de usuarios no registrados.
+- El dni debe corresponder a un usuario previamente registrado en el sistema. Si no se encuentra, no se permitirá registrar la mascota.
+
 
 </details>
 

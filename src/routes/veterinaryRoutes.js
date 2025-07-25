@@ -19,10 +19,11 @@ veterinaryRouter.delete('/appointments/:idAppointment', authVeterinaryMiddleware
 veterinaryRouter.put('/appointments/:idAppointment', authVeterinaryMiddleware, veterinaryEditAppointmentController)
 veterinaryRouter.get('/appointments', authVeterinaryMiddleware, veterinaryViewAppointmentsController)
 
-// TODO: FIX IT
 veterinaryRouter.post('/pets', authVeterinaryMiddleware, veterinaryCreatePetController)
-veterinaryRouter.get('/pets', authVeterinaryMiddleware, veterinaryViewPetsController)
-veterinaryRouter.put('/pets', authVeterinaryMiddleware, veterinaryEditPetController)
+veterinaryRouter.get('/pets/:idUser', authVeterinaryMiddleware, veterinaryViewPetsController)
+veterinaryRouter.put('/pets/:idPet', authVeterinaryMiddleware, veterinaryEditPetController)
+// TODO: veterinary - delete pet
+// TODO: FIX IT
 veterinaryRouter.post('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryCreateDiagnosticController)
 veterinaryRouter.put('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryEditDiagnosticController)
 veterinaryRouter.get('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryViewDiagnosticController)
