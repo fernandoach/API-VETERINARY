@@ -31,11 +31,11 @@ async function registerAppointment (date, startTime, endTime, reason, idVeterina
   } catch (error) {
     switch (error.code) {
       case 'ER_DUP_ENTRY':
-        throw new Error('Ya existe un registro duplicado (cita con ID repetido).')
+        throw new Error('Ya existe un registro duplicado.')
       case 'ER_NO_SUCH_TABLE':
-        throw new Error('La tabla "Appointment" no existe en la base de datos.')
+        throw new Error('La tabla no existe en la base de datos.')
       case 'ER_NO_REFERENCED_ROW_2':
-        throw new Error('El veterinario o la mascota no existen (clave foránea inválida).')
+        throw new Error('El veterinario o la mascota no existen.')
       default:
         throw new Error('No se pudo registrar la cita.')
     }

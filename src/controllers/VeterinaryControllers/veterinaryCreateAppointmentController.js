@@ -1,4 +1,4 @@
-import { addMinutes, differenceInMinutes, isBefore } from 'date-fns'
+import { addMinutes, isBefore, isSameDay } from 'date-fns'
 import { getAuthIdUser } from '../../utils/getAuthIdUser.js'
 import { appointmentSchema } from '../../validations/appointmentSchema.js'
 import { registerAppointment } from '../../repositories/appointmentRepository/registerAppointment.js'
@@ -21,9 +21,9 @@ async function veterinaryCreateAppointmentController (req, res) {
     const start = new Date(year, month - 1, day, hour, minute)
     const now = new Date()
 
-    // Validar que la cita no esté en el pasado ni muy cerca (menos de 2 horas)
-    if (isBefore(start, now) || differenceInMinutes(start, now) < 120) {
-      return res.status(400).json({ message: 'No puede reservar en una fecha pasada o con menos de 2 horas de anticipación.' })
+    // Validar que la cita no esté en el una fecha pasada, pero si es el mismo dia y hora pasada nomarl
+    if (isBefore(start, now) && !isSameDay(start, now)) {
+      return res.status(400).json({ message: 'No se pueden registrar citas en días pasados.' })
     }
 
     // Calcular la hora de finalización sumando 60 minutos

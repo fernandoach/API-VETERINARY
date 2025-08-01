@@ -6,13 +6,14 @@ import { verifyAppointmentIsCompleted } from '../../repositories/appointmentRepo
 import { registerDiagnostic } from '../../repositories/DiagnosticRepository/registerDiagnostic.js'
 import { getAuthIdUser } from '../../utils/getAuthIdUser.js'
 import { diagnosticSchema } from '../../validations/diagnosticSchema.js'
+import { uuidSchema } from '../../validations/uuidSchema.js'
 
 async function veterinaryCreateDiagnosticController (req, res) {
   try {
     // Extraer los datos del diagnostico del cuerpo de la solicitud
     const { description, reason, treatment } = req.body
     const now = new Date(Date.now())
-    const date = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, 0)}-${now.getDay().toString().padStart(2, 0)}`
+    const date = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, 0)}-${now.getDate().toString().padStart(2, 0)}`
 
     // Validar datos del diagnostico usando Joi
     await diagnosticSchema.validateAsync({ date, description, reason, treatment })
@@ -21,8 +22,10 @@ async function veterinaryCreateDiagnosticController (req, res) {
 
     // Validar idAppointment vacio
     if (!idAppointment) {
-      return res.status(400).send({ message: 'Debe espescificar la cita a la pertenece el diagnóstico.' })
+      return res.status(400).send({ message: 'Debe especificar la cita a la pertenece el diagnóstico.' })
     }
+
+    await uuidSchema.validateAsync({ uuid: idAppointment })
 
     // Validar cita existente
     const appointmentExist = await verifyAppointmentExistByIdAppointment(idAppointment)

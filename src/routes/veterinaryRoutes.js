@@ -16,20 +16,19 @@ import { veterinaryDeletePetController } from '../controllers/VeterinaryControll
 const veterinaryRouter = Router()
 
 veterinaryRouter.post('/appointments', authVeterinaryMiddleware, veterinaryCreateAppointmentController)
-veterinaryRouter.delete('/appointments/:idAppointment', authVeterinaryMiddleware, veterinaryCancelAppointmentController)
-veterinaryRouter.put('/appointments/:idAppointment', authVeterinaryMiddleware, veterinaryEditAppointmentController)
 veterinaryRouter.get('/appointments', authVeterinaryMiddleware, veterinaryViewAppointmentsController)
+veterinaryRouter.put('/appointments/:idAppointment', authVeterinaryMiddleware, veterinaryEditAppointmentController)
+veterinaryRouter.delete('/appointments/:idAppointment', authVeterinaryMiddleware, veterinaryCancelAppointmentController)
 
 veterinaryRouter.post('/pets', authVeterinaryMiddleware, veterinaryCreatePetController)
 veterinaryRouter.get('/pets/:idUser', authVeterinaryMiddleware, veterinaryViewPetsController)
 veterinaryRouter.put('/pets/:idPet', authVeterinaryMiddleware, veterinaryEditPetController)
-// TODO: veterinary - delete pet
 veterinaryRouter.delete('/pets/:idPet', authVeterinaryMiddleware, veterinaryDeletePetController)
 
-// TODO: FIX IT
 veterinaryRouter.post('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryCreateDiagnosticController)
-veterinaryRouter.put('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryEditDiagnosticController)
+// TODO: FIX IT
 veterinaryRouter.get('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryViewDiagnosticController)
+veterinaryRouter.put('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryEditDiagnosticController)
 veterinaryRouter.delete('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryDeleteDiagnosticController)
 
 export { veterinaryRouter }
