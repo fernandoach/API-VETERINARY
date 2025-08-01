@@ -1,9 +1,9 @@
+import { validateAppointmentForIdVeterinary } from '../../repositories/appointmentRepository/validateAppointmentForIdVeterinary.js'
+import { verifyAppointmentExistByIdAppointment } from '../../repositories/appointmentRepository/verifyAppointmentExistByIdAppointment.js'
+import { verifyAppointmentIsCanceled } from '../../repositories/appointmentRepository/verifyAppointmentIsCanceled.js'
+import { verifyAppointmentIsCompleted } from '../../repositories/appointmentRepository/verifyAppointmentIsCompleted.js'
+import { getDiagnosticForVeterinaryAppointment } from '../../repositories/DiagnosticRepository/getDiagnosticForVeterinaryAppointment.js'
 import { getAuthIdUser } from '../../utils/getAuthIdUser.js'
-import { validateAppointmentForIdVeterinary } from '../appointmentRepository/validateAppointmentForIdVeterinary.js'
-import { verifyAppointmentExistByIdAppointment } from '../appointmentRepository/verifyAppointmentExistByIdAppointment.js'
-import { verifyAppointmentIsCanceled } from '../appointmentRepository/verifyAppointmentIsCanceled.js'
-import { verifyAppointmentIsCompleted } from '../appointmentRepository/verifyAppointmentIsCompleted.js'
-import { getDiagnosticForVeterinaryAppointment } from './getDiagnosticForVeterinaryAppointment.js'
 
 async function veterinaryViewDiagnosticController (req, res) {
   try {

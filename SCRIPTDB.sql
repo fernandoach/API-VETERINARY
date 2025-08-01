@@ -24,7 +24,7 @@ CREATE TABLE Pet(
     weight DECIMAL(5,2) NOT NULL,
     birthday DATE NOT NULL,
     idUser CHAR(36) NOT NULL,
-    FOREIGN KEY (idUser) REFERENCES User(idUser)
+    FOREIGN KEY (idUser) REFERENCES User(idUser) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
@@ -37,8 +37,8 @@ CREATE TABLE Appointment(
     state CHAR(1) DEFAULT('P'),
     idVeterinary CHAR(36) NOT NULL,
     idPet CHAR(36) NOT NULL,
-    FOREIGN KEY (idVeterinary) REFERENCES User(idUser),
-    FOREIGN KEY (idPet) REFERENCES Pet(idPet)
+    FOREIGN KEY (idVeterinary) REFERENCES User(idUser) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (idPet) REFERENCES Pet(idPet) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
@@ -49,7 +49,7 @@ CREATE TABLE Diagnostic(
     reason VARCHAR(200) NOT NULL,
     treatment VARCHAR(500) NOT NULL,
     idAppointment CHAR(36) NOT NULL,
-	FOREIGN KEY (idAppointment) REFERENCES Appointment(idAppointment)
+	FOREIGN KEY (idAppointment) REFERENCES Appointment(idAppointment) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 #INSERT INTO User (idUser, firstname, lastname, gender, birthday, dni, telephone, email, password, role) VALUES
@@ -71,8 +71,8 @@ CREATE TABLE Diagnostic(
 #INSERT INTO User (
 #  idUser, firstname, lastname, gender, birthday, dni, telephone, email, password, role
 #) VALUES
-#(uuid(), 'Carlos', 'Salazar', 'M', '1990-04-15', '11345678', '912345678', 'carlos.vet@gmail.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V'),
-#(uuid(), 'Laura', 'Mendoza', 'F', '1987-09-23', '23456789', '922223333', 'laura.mendoza@vet.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V'),
-#(uuid(), 'Diego', 'Ramírez', 'M', '1992-01-10', '34567890', '933334444', 'diego.ramirez@vet.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V'),
-#(uuid(), 'Ana', 'Lopez', 'F', '1995-07-05', '45678901', '944445555', 'ana.lopez@vet.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V'),
-#(uuid(), 'Ricardo', 'Torres', 'M', '1988-11-30', '56789012', '955556666', 'ricardo.torres@vet.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V');
+#(uuid(), 'Carlos', 'Salazar', 'M', '1990-04-15', '11345678', '912345678', 'carlos@gmail.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V'),
+#(uuid(), 'Laura', 'Mendoza', 'F', '1987-09-23', '23456789', '922223333', 'laura@gmail.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V'),
+#(uuid(), 'Diego', 'Ramírez', 'M', '1992-01-10', '34567890', '933334444', 'diego@gmail.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V'),
+#(uuid(), 'Ana', 'Lopez', 'F', '1995-07-05', '45678901', '944445555', 'ana@gmail.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V'),
+#(uuid(), 'Ricardo', 'Torres', 'M', '1988-11-30', '56789012', '955556666', 'ricardo@gmail.com', '$2b$12$xM3M0NXYdLFhxAeN.9G0ruGKfPYqI1cODqmB92cyCuy4tvqdHJe/W', 'V');

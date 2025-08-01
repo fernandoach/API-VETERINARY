@@ -12,7 +12,7 @@ async function deleteDiagnosticByIdAppointment (idAppointment) {
     `
 
     const [result] = await connection.execute(sql, [idAppointment])
-    if (result.affectedRows === 1) {
+    if (result.affectedRows >= 1) {
       return true
     }
 
