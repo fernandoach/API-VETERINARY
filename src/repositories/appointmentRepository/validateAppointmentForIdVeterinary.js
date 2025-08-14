@@ -19,7 +19,7 @@ async function validateAppointmentForIdVeterinary (idVeterinary, idAppointment) 
     console.error('Error al validar cita del veterinario:', error.message)
     throw new Error('No se pudo validar la cita del veterinario.')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

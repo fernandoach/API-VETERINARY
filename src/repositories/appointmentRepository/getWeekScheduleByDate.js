@@ -26,7 +26,7 @@ async function getWeekScheduleByDate (startDate, endDate, idVeterinary) {
   } catch (error) {
     throw new Error('No se pudo obtener el horario semanal.')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

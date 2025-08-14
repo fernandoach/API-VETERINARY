@@ -38,7 +38,7 @@ async function registerDiagnostic (date, description, reason, treatment, idAppoi
         throw new Error('No se pudo registrar el diagnóstico.')
     }
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

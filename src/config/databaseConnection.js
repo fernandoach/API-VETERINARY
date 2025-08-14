@@ -1,15 +1,18 @@
 import mysql from 'mysql2/promise'
 
-const databaseInfo = {
-  host: 'localhost',
-  user: 'root',
+const pool = mysql.createPool({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '1234',
-  database: 'VETERINARY'
-}
+  database: process.env.DB_DATABASE || 'VETERINARY',
+  waitForConnections: true,
+  connectionLimit: process.env.DB_CONNECTION_LIMIT || 10, // n de con maximas
+  queueLimit: 0
+})
 
 async function createConnection () {
   try {
-    const connection = await mysql.createConnection(databaseInfo)
+    const connection = await pool.getConnection()
     return connection
   } catch (error) {
     if (error.code === 'ECONNREFUSED') {

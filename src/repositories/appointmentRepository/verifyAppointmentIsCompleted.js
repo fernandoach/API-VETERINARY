@@ -18,7 +18,7 @@ async function verifyAppointmentIsCompleted (idAppointment) {
   } catch (error) {
     throw new Error('No se pudo verificar el estado de la cita.')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

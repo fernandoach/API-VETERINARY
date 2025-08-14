@@ -33,7 +33,7 @@ async function editDiagnosticForIdAppointment (date, description, reason, treatm
         throw new Error('No se pudo editar el diagnóstico.')
     }
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

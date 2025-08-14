@@ -21,7 +21,7 @@ async function editUserPasswordForId (idUser, newPassword) {
   } catch (error) {
     throw new Error('No se pudo actualizar la contraseña')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

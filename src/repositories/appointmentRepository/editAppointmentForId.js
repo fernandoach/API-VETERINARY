@@ -33,7 +33,7 @@ async function editAppointmentForId (idAppointment, date, startTime, endTime, re
         throw new Error('No se pudo editar la cita.')
     }
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

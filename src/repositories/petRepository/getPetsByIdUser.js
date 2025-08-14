@@ -19,7 +19,7 @@ async function getPetsByIdUser (idUser) {
     console.error('Error al obtener mascotas del usuario:', error.message)
     throw new Error('No se pudieron obtener las mascotas del usuario.')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

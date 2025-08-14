@@ -29,7 +29,7 @@ async function registerUser (firstname, lastname, gender, birthday, dni, telepho
         throw new Error('No se pudo registrar el usuario.')
     }
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

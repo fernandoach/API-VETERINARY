@@ -31,7 +31,7 @@ async function getAppointmentDateTimeForUserAppointment (idUser, idAppointment) 
         throw new Error('Sin autorización.')
     }
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

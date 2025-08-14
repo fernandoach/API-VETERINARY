@@ -22,7 +22,7 @@ async function getUserInfoForId (idUser) {
   } catch (error) {
     throw new Error('No se pudo obtener la información del usuario')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

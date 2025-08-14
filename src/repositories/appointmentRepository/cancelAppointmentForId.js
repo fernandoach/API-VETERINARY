@@ -29,7 +29,7 @@ async function cancelAppointmentForId (idAppointment) {
         throw new Error('No se pudo cancelar la cita.')
     }
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

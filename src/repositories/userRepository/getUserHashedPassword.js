@@ -20,7 +20,7 @@ async function getUserHashedPassword (idUser) {
   } catch (error) {
     throw new Error('Usuario y/o contraseña invalidos.')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

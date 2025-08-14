@@ -19,7 +19,7 @@ async function getVeterinarians () {
     console.error('Error al obtener los veterinarios:', error.message)
     throw new Error('No se pudo obtener la lista de veterinarios.')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

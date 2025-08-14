@@ -31,7 +31,7 @@ async function editAppointmentState (idAppointment, state) {
         throw new Error('No se pudo editar la cita.')
     }
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

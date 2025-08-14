@@ -29,7 +29,7 @@ async function getAppointmentsForIdUser (idUser) {
     console.log(error)
     throw new Error('No se pudieron obtener las citas del usuario.')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

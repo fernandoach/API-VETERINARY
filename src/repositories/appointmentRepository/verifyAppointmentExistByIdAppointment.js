@@ -18,7 +18,7 @@ async function verifyAppointmentExistByIdAppointment (idAppointment) {
   } catch (error) {
     throw new Error('No se pudo verificar la disponibilidad de la cita.')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

@@ -16,7 +16,7 @@ async function verifyPetExistByIdPet (idPet) {
   } catch (error) {
     throw new Error('La mascota no existe')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

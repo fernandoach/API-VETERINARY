@@ -19,7 +19,7 @@ async function getAppointmentDateTimeByIdAppointment (idAppointment) {
     console.log(error)
     throw new Error('No se pudo obtener la hora de inicio de la cita.')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

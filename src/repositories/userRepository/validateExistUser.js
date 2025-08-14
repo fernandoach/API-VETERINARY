@@ -19,7 +19,7 @@ async function validateExistUser (idUser) {
     console.error('Error al validar existencia de usuario:', error.message)
     throw new Error('No se pudo validar la existencia del usuario.')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

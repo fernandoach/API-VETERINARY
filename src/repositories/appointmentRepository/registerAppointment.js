@@ -40,7 +40,7 @@ async function registerAppointment (date, startTime, endTime, reason, idVeterina
         throw new Error('No se pudo registrar la cita.')
     }
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

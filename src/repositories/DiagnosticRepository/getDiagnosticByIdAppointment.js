@@ -25,7 +25,7 @@ async function getDiagnosticByIdAppointment (idAppointment) {
     console.error('Error al obtener diagnóstico:', error.message)
     throw new Error('No se pudo obtener el diagnóstico.')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

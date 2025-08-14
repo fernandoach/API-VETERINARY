@@ -30,7 +30,7 @@ async function editPetForIdPet (idPet, name, species, race, gender, weight, birt
 
     throw new Error('No se pudo editar la mascota.')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

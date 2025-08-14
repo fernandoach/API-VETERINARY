@@ -16,7 +16,7 @@ async function doesPetBelongToIdUser (idPet, idUser) {
   } catch (error) {
     throw new Error('Mascota o veterinario no existentes')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

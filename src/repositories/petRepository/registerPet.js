@@ -34,7 +34,7 @@ async function registerPet (name, species, race, gender, weight, birthday, idUse
         throw new Error('No se pudo registrar la mascota.')
     }
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

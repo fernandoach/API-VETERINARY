@@ -18,7 +18,7 @@ async function getIdUserForDni (dni) {
   } catch (error) {
     throw new Error('No se pudo obtener el usuario por DNI.')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

@@ -21,7 +21,7 @@ async function getUserRoleForId (idUser) {
     console.error('Error al obtener el rol del usuario:', error.message)
     throw new Error('No se pudo obtener el rol del usuario')
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 

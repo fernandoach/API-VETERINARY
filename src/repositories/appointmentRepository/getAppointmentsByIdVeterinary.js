@@ -47,7 +47,7 @@ async function getAppointmentsByIdVeterinary (idVeterinary, startDate, endDate) 
         throw new Error('Sin autorización.')
     }
   } finally {
-    if (connection) await connection.end()
+    if (connection) await connection.release()
   }
 }
 
