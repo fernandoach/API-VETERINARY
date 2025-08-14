@@ -3,11 +3,20 @@ import { verifyAppointmentExistByIdAppointment } from '../../repositories/appoin
 import { verifyAppointmentIsCanceled } from '../../repositories/appointmentRepository/verifyAppointmentIsCanceled.js'
 import { verifyAppointmentIsCompleted } from '../../repositories/appointmentRepository/verifyAppointmentIsCompleted.js'
 import { editDiagnosticForIdAppointment } from '../../repositories/DiagnosticRepository/editDiagnosticByIdAppointment.js'
+import { getDiagnosticByIdAppointment } from '../../repositories/DiagnosticRepository/getDiagnosticByIdAppointment.js'
 import { getAuthIdUser } from '../../utils/getAuthIdUser.js'
 import { diagnosticSchema } from '../../validations/diagnosticSchema.js'
 
 async function veterinaryEditDiagnosticController (req, res) {
   try {
+    // Extraer el id de la cita de los parámetros de la solicitud
+    const idAppointment = req.params.idAppointment
+
+    // Validar idAppointment vacio
+    if (!idAppointment) {
+      return res.status(400).send({ message: 'Debe espescificar la cita a la pertenece el diagnóstico.' })
+    }
+
     // Extraer los datos del diagnostico del cuerpo de la solicitud
     const { description, reason, treatment } = req.body
     const now = new Date(Date.now())
@@ -15,13 +24,6 @@ async function veterinaryEditDiagnosticController (req, res) {
 
     // Validar datos del diagnostico usando Joi
     await diagnosticSchema.validateAsync({ date, description, reason, treatment })
-
-    const idAppointment = req.params.idAppointment
-
-    // Validar idAppointment vacio
-    if (!idAppointment) {
-      return res.status(400).send({ message: 'Debe espescificar la cita a la pertenece el diagnóstico.' })
-    }
 
     // Validar cita existente
     const appointmentExist = await verifyAppointmentExistByIdAppointment(idAppointment)
@@ -49,7 +51,25 @@ async function veterinaryEditDiagnosticController (req, res) {
       return res.status(404).send({ message: 'Sin autorización.' })
     }
 
-    // TODO: Validar si son los mismo valores que se desean editar ?
+    // Obtener datos del diagnóstico existente
+    const queryOldDiagnostic = await getDiagnosticByIdAppointment(idAppointment)
+    if (!queryOldDiagnostic || queryOldDiagnostic.length === 0) {
+      return res.status(400).send({ message: 'No se encontró el diagnóstico.' })
+    }
+
+    const oldDiagnostic = await queryOldDiagnostic[0]
+
+    // Verificar si el diagnóstico ya existe
+    if (!oldDiagnostic) {
+      return res.status(400).send({ message: 'No se encontró el diagnóstico.' })
+    }
+
+    // Verificar si los datos del diagnóstico son iguales a los existentes
+    if (oldDiagnostic.description === description &&
+        oldDiagnostic.reason === reason &&
+        oldDiagnostic.treatment === treatment) {
+      return res.status(400).send({ message: 'No se han realizado cambios en el diagnóstico.' })
+    }
 
     // Intentar editar el diagnóstico
     const registerDiagnosticQueryResult = await editDiagnosticForIdAppointment(date, description, reason, treatment, idAppointment)

@@ -8,12 +8,12 @@ import { getAuthIdUser } from '../../utils/getAuthIdUser.js'
 
 async function veterinaryDeleteDiagnosticController (req, res) {
   try {
-    // Extraer los datos de cita de los parametros
+    // Extraer id de la cita desde los parámetros de la solicitud
     const idAppointment = req.params.idAppointment
 
-    // Validar idAppointment vacio
+    // Validar idAppointment
     if (!idAppointment) {
-      return res.status(400).send({ message: 'Debe espescificar la cita a la pertenece el diagnóstico.' })
+      return res.status(400).send({ message: 'Id de cita inválido.' })
     }
 
     // Validar cita existente

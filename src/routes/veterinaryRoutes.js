@@ -26,7 +26,6 @@ veterinaryRouter.put('/pets/:idPet', authVeterinaryMiddleware, veterinaryEditPet
 veterinaryRouter.delete('/pets/:idPet', authVeterinaryMiddleware, veterinaryDeletePetController)
 
 veterinaryRouter.post('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryCreateDiagnosticController)
-// TODO: FIX IT
 veterinaryRouter.get('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryViewDiagnosticController)
 veterinaryRouter.put('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryEditDiagnosticController)
 veterinaryRouter.delete('/diagnostics/:idAppointment', authVeterinaryMiddleware, veterinaryDeleteDiagnosticController)
