@@ -26,7 +26,6 @@ async function getAppointmentsForIdUser (idUser) {
     const [rows] = await connection.execute(sql, [idUser])
     return rows
   } catch (error) {
-    console.log(error)
     throw new Error('No se pudieron obtener las citas del usuario.')
   } finally {
     if (connection) await connection.release()

@@ -4,7 +4,6 @@ import { validateExistUser } from '../../repositories/userRepository/validateExi
 async function veterinaryViewPetsController (req, res) {
   try {
     const idUser = req.params.idUser
-    console.log(idUser)
 
     const validateUser = await validateExistUser(idUser)
     if (validateUser === false) {

@@ -37,7 +37,6 @@ async function getAppointmentsByIdVeterinary (idVeterinary, startDate, endDate) 
     }
     return rows
   } catch (error) {
-    console.log(error)
     switch (error.code) {
       case 'ER_NO_SUCH_TABLE':
         throw new Error('La tabla no existe en la base de datos.')

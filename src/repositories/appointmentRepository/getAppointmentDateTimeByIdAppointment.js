@@ -16,7 +16,6 @@ async function getAppointmentDateTimeByIdAppointment (idAppointment) {
     const [rows] = await connection.execute(sql, [idAppointment])
     return rows[0]
   } catch (error) {
-    console.log(error)
     throw new Error('No se pudo obtener la hora de inicio de la cita.')
   } finally {
     if (connection) await connection.release()

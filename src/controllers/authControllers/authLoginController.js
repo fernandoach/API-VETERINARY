@@ -30,8 +30,6 @@ async function authLoginController (req, res) {
       sameSite: 'Strict',
       maxAge: 2 * 60 * 60 * 1000
     })
-    console.log(`accessToken=${accessToken}`)
-
     const role = await getUserRoleForId(idUser)
 
     return res.status(200).json({ role })
